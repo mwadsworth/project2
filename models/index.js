@@ -11,6 +11,8 @@ var db = {};
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable]);
 } else {
+  // Pass password in from environment .env variable DB_PASSWORD
+  config.password = process.env.DB_PASSWORD;
   var sequelize = new Sequelize(
     config.database,
     config.username,
