@@ -1,27 +1,45 @@
-var db = require("../models");
+// ===============================================================================
+// DEPENDENCIES
+// We need to include the path package to get the correct file path for our html
+// ===============================================================================
+var path = require("path");
+
+// ===============================================================================
+// ROUTING
+// ===============================================================================
 
 module.exports = function(app) {
-  // Load index page
+  // HTML GET Requests
+  // Below code handles when users "visit" a page.
+  // In each of the below cases the user is shown an HTML page of content
+  // ---------------------------------------------------------------------------
+
   app.get("/", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
-      res.render("index", {
-        msg: "Welcome!",
-        examples: dbExamples
-      });
-    });
+    res.sendFile(path.join(__dirname, "../public/createUserLogin.html"));
   });
 
-  // Load example page and pass in an example by id
-  app.get("/example/:id", function(req, res) {
-    db.Example.findOne({ where: { id: req.params.id } }).then(function(dbExample) {
-      res.render("example", {
-        example: dbExample
-      });
-    });
+  app.get("/createOrJoinChallenge", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/createOrJoinChallenge.html"));
   });
 
-  // Render 404 page for any unmatched routes
+  app.get("/createWithGoals", function(req, res) {
+    res.sendFile(Path.join(__dirname, "../public/createWithGoals.html"));
+  });
+
+  app.get("/joinAChallenge", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/joinAChallenge.html"));
+  });
+
+  app.get("/chosenChallenge", function(rez, res) {
+    res.sendFile(path.join(__dirname, "../public/chosenChallenge.html"));
+  });
+
+  app.get("/congratulations", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/congratulations.html"));
+  });
+
+  // If no matching route is found default to home
   app.get("*", function(req, res) {
-    res.render("404");
+    res.sendFile(path.join(__dirname, "../public/createUserLogin.html"));
   });
 };
