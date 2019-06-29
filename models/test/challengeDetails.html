@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Challenges With Details</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./app.css">
+
+    <!-- Bootstrap scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="jumbotron">
+            <h1 class="text-center">
+                <span class="fa fa-fire"></span>Challenges With Details</h1>
+            <hr>
+            <br>
+            <div class="text-center">
+                <a href="/test/challenges"><button class="btn btn-lg btn-primary" id="challengeModalBtn"><span
+                            class="fa fa-list-alt"></span> Challenges</button></a>
+                <a href="/test"><button class="btn btn-lg btn-default"><span class="fa fa-home"></span></button></a>
+            </div>
+        </div>
+
+        <!-- Challenges -->
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-sm table-hover"
+                        id="challenges-table">
+                        <thead>
+                            <tr>
+                                <!-- The scope attribute specifies that this is a header for a column -->
+                                <th scope="col">Challenge ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Prize</th>
+                                <th scope="col">URL</th>
+                                <th scope="col">Update</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge Details -->
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Challenge Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <table
+                            class="table table-responsive table-striped table-bordered table-condensed table-sm table-hover"
+                            id="challenge-details-table">
+                            <thead>
+                                <tr>
+                                    <!-- The scope attribute specifies that this is a header for a column -->
+                                    <th scope="col">Challenge Detail ID</th>
+                                    <th scope="col">Goal</th>
+                                    <th scope="col">Goal Order</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p><a href="/api/users">Users List</a> | <a href="/api/challenges">Challenges List</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
+    <script type="text/javascript">
+
+        var isUpdate = false;
+        var updateChallengeId = 0;
+
+        $("#challenges-table").on("click", ".challengeRow", function (event) {
+
+            console.log("Click table");
+            console.log($(this));
+            console.log("Closest row");
+            console.log($(this).closest("tr")[0].rowIndex);
+            console.log("Data key");
+            console.log($(this).attr("data-key"));
+            console.log("Zero column");
+            console.log($(this).closest("tr").find('td:eq(0)').text());
+
+            var isUpdate = false;
+            var updateChallengeId = 0;
+
+            var challengeIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
+            runChallengeDetailQuery(challengeIndex);
+        });
+
+        function runChallengeDetailQuery(challengeId) {
+            console.log("In challenge details");
+            console.log(challengeId);
+            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+            $.ajax({
+                url: "/api/challenge/details/" + challengeId,
+                method: "GET"
+            })
+                .then(function (tableData) {
+                    console.log(tableData);
+                    // Loop through and display each of the customers
+                    for (var i = 0; i < tableData.length; i++) {
+
+                        // Create the new row
+                        var newRow = $("<tr>").append(
+                            $("<td>").text(tableData[i].id),
+                            $("<td>").text(tableData[i].goal),
+                            $("<td>").text(tableData[i].goalOrder)
+                        );
+                        newRow.attr("data-key", tableData[i].challengeId);
+                        newRow.addClass("challengeDetailRow");
+
+                        // Append the new row to the table
+                        $("#challenge-details-table > tbody").append(newRow);
+
+                    }
+                });
+        };
+
+        // In this code, jQuery is used to "download" the data from our server
+        // We then dynamically display this content in our table. This is very similar to the group projects you just completed.
+        // It's also very similar to the NYT search application. In fact, I copied a ton of code from there.
+
+        function runChallengeQuery() {
+            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+            $.ajax({
+                url: "/api/challenges",
+                method: "GET"
+            })
+                .then(function (tableData) {
+                    console.log("Get challenges");
+                    // Loop through and display each of the customers
+                    for (var i = 0; i < tableData.length; i++) {
+
+                        // Create update and remove buttons
+                        var updateButton = $("<button>").html("<span class='glyphicon glyphicon-edit'>U</span>").addClass(
+                            "updateButton").attr("data-key", tableData[i].id);
+                        var removeButton = $("<button>").html("<span class='glyphicon glyphicon-remove'>R</span>").addClass(
+                            "removeButton").attr("data-key", tableData[i].id);
+
+                        // Create the new row
+                        var newRow = $("<tr>").append(
+                            $("<td>").text(tableData[i].id),
+                            $("<td>").text(tableData[i].name),
+                            $("<td>").text(tableData[i].prize),
+                            $("<td>").text(tableData[i].url),
+                            $("<td>").html(updateButton),
+                            $("<td>").html(removeButton)
+                        );
+                        newRow.attr("data-key", tableData[i].id);
+                        newRow.addClass("challengeRow");
+                        console.log("Add challengeRow");
+                        console.log(newRow);
+
+                        // Append the new row to the table
+                        $("#challenges-table > tbody").append(newRow);
+
+                    }
+                });
+        }
+
+        $(document).on("click", ".removeButton", removeRow);
+        $(document).on("click", ".updateButton", updateRow);
+
+        function removeRow() {
+            console.log("Remove row ");
+            console.log($(this).attr("data-key"));
+            var id = $(this).attr("data-key");
+            var delChallenge = {
+                challengeId: id
+            };
+            console.log(delChallenge);
+
+            // This line is the magic. It"s very similar to the standard ajax function we used.
+            // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
+            // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+            // depending on if a tables is available or not.
+            $.ajax({
+                url: "/api/challenges" + id,
+                method: "DELETE"
+            })
+                .then(function (data) {
+
+                    if (data) {
+                        console.log("Deleted challenge");
+                    }
+                    else {
+                        console.log("Did not work");
+                    }
+
+                });
+
+        };
+
+        // Add a challenge
+        $("#challengeModalBtn").on("click", function (event) {
+            isUpdate = false;
+            $("#challengeModalTitle").html("Add Challenge");
+            // Clear the form to start
+            $("#challenge-name").val("");
+            $("#challenge-prize").val("");
+            $("#challenge-url").val("");
+            $('#challengeModal').modal('show');
+        });
+
+        // Add or update a challenge
+        $(".submit").on("click", function (event) {
+            event.preventDefault();
+            if (isUpdate) {
+                var newChallenge = {
+                    id: updateChallengeId,
+                    name: $("#challenge-name").val().trim(),
+                    prize: $("#challenge-prize").val().trim(),
+                    url: $("#challenge-url").val().trim()
+                };
+            }
+            else {
+                var newChallenge = {
+                    name: $("#challenge-name").val().trim(),
+                    prize: $("#challenge-prize").val().trim(),
+                    url: $("#challenge-url").val().trim()
+                };
+            }
+
+            // This line is the magic. It"s very similar to the standard ajax function we used.
+            // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
+            // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+            // depending on if a tables is available or not.
+
+            // Update a challenge
+            if (isUpdate) {
+
+                $.ajax({
+                    url: "/api/challenges",
+                    method: "PUT",
+                    contentType: 'application/json',
+                    data: JSON.stringify(newChallenge) // access in body
+
+                })
+                    .done(function () {
+                        console.log('SUCCESS');
+                        isUpdate = false;
+                        $("#challengeModalTitle").html("Add Challenge");
+
+                    }).fail(function (msg) {
+                        console.log('FAIL');
+                    }).always(function (msg) {
+                        console.log('ALWAYS');
+                    });
+            }
+            else {
+                $.post("/api/challenges", newChallenge,
+                    function (data) {
+                        if (data) {
+                            console.log("Added a new challenge");
+                        }
+                        else {
+                            alert("Did not work");
+                        }
+                    });
+            }
+
+            // Clear the form after submitting
+            $("#challenge-name").val("");
+            $("#challenge-prize").val("");
+            $("#challenge-url").val("");
+
+        });
+
+        function updateRow() {
+            isUpdate = true;
+            $("#challengeModalTitle").html("Update Challenge");
+            $('#challengeModal').modal('show');
+            updateChallengeId = $(this).attr("data-key");
+
+            $.ajax({
+                url: "/api/challenges/" + updateChallengeId,
+                method: "GET"
+            })
+                .then(function (data) {
+                    // Populate the form for update
+                    $("#challenge-name").val(data.name);
+                    $("#challenge-prize").val(data.prize);
+                    $("#challenge-url").val(data.url);
+                });
+        };
+
+
+        // Run Queries!
+        // ==========================================
+        runChallengeQuery();
+    </script>
+
+
+</body>
+
+
+</html>
