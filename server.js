@@ -25,7 +25,9 @@ app.set("view engine", "handlebars");
 require("./routes/apiRoutes")(app);
 require("./routes/apiUsersRoutes")(app);
 require("./routes/apiChallengesRoutes")(app);
-require("./db/viewController");
+require("./routes/apiChallengeDetailsRoutes")(app);
+require("./routes/apiUserChallengesViewRoutes")(app);
+require("./routes/htmlTestRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 var syncOptions = { force: false };

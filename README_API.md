@@ -5,43 +5,67 @@
 - We are using the Node.js package sequelize as an ORM to manage our database schema and access layer.
 - The following is the current table/column depiction of the Challenge Board schema.
 
-![](./images/image01.gif)
+![](./images/apiImage01.gif)
 
 
 
 ## API Routes
 
 - API routes for these tables are:
-- /api/users GET
+- localhost:3000/api/users GET
 
-![](./images/image02.gif)
+![](./images/apiImage02.gif)
 
-- /api/users POST
+- localhost:3000/api/users POST
 
-![](C:\Users\Paul\BootCamp\HomeWork\HW16\project2\images\image02a.gif)
+![](./images/apiImage02a.gif)
 
-- /api/users PUT
+- localhost:3000/api/users PUT
 
-![](C:\Users\Paul\BootCamp\HomeWork\HW16\project2\images\image02b.gif)
+![](./images/apiImage02b.gif)
 
-- /api/users DELETE
+- localhost:3000/api/users DELETE
 
-![](C:\Users\Paul\BootCamp\HomeWork\HW16\project2\images\image02c.gif)
+![](./images/apiImage02c.gif)
 
-- /api/challenges GET
+- localhost:3000/api/challenges GET
 
-![](C:\Users\Paul\BootCamp\HomeWork\HW16\project2\images\image03.gif)
+![](./images/apiImage03.gif)
 
 
 
-- /api/challenges POST
+- localhost:3000/api/challenges POST
 
-![](C:\Users\Paul\BootCamp\HomeWork\HW16\project2\images\image03a.gif)
+![](./images/apiImage03a.gif)
 
-- /api/challenges PUT
+- localhost:3000/api/challenges PUT
 
-![](C:\Users\Paul\BootCamp\HomeWork\HW16\project2\images\image03b.gif)
+![](./images/apiImage03b.gif)
 
 - /api/challenges DELETE
 
-![](C:\Users\Paul\BootCamp\HomeWork\HW16\project2\images\image03c.gif)
+![](./images/apiImage03c.gif)
+
+
+
+## Test Forms For API Routes
+
+- There are test forms for each of the APIs. These forms and their embedded javascript  demonstrate the CRUD actions for the various APIs discussed above.
+
+- Main form - localhost:3000/test
+
+  ![](./images/apiImage04.gif)
+
+- User form at localhost:3000/test/users
+
+  ![](./images/apiImage05.gif)
+
+- Challenge form at localhost:3000/test/challenges
+
+  ![](./images/apiImage06.gif)
+
+- Challenge with details form at localhost:3000/test/challenge/details
+
+  ![](./images/apiImage07.gif)
+
+  
