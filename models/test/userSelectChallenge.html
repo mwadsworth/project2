@@ -77,25 +77,47 @@
             </div>
         </div>
 
-        <!-- Challenge Details -->
+        <!-- Challenges Selected -->
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-12 col-md-6 col-lg-6">
 
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h4>User Challenge Results Details</h4>
+                        <h4>Challenges Selected</h4>
                     </div>
                     <div class="card-body">
                         <table
                             class="table table-responsive table-striped table-bordered table-condensed table-sm table-hover"
-                            id="user-challenge-results-table">
+                            id="user-challenges-selected-table">
                             <thead>
                                 <tr>
                                     <!-- The scope attribute specifies that this is a header for a column -->
-                                    <th scope="col">ID</th>
-                                    <th scope="col">User ID</th>
                                     <th scope="col">Challenge ID</th>
-                                    <th scope="col">Challenge Detail ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Prize</th>
+                                    <th scope="col">URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6">
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Challenge Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <table
+                            class="table table-responsive table-striped table-bordered table-condensed table-sm table-hover"
+                            id="user-challenge-rezsults-table">
+                            <thead>
+                                <tr>
+                                    <!-- The scope attribute specifies that this is a header for a column -->
                                     <th scope="col">Goal</th>
                                     <th scope="col">Goal Order</th>
                                     <th scope="col">Is Done</th>
@@ -127,7 +149,6 @@
         // Clicked on a user
         $("#users-table").on("click", ".userRow", function (event) {
 
-            var isUpdate = false;
             selectUserId = 0;
 
             console.log("Click table");
@@ -140,15 +161,11 @@
             selectUserId = userIndex;
             console.log("In User select");
             console.log(selectUserId + " " + selectChallengeId);
-            if (selectUserId > 0 && selectChallengeId > 0) {
-                runUserChallengeResultsQuery(selectUserId, selectChallengeId);
-            }
         });
 
         // Clicked on a challenge
         $("#challenges-table").on("click", ".challengeRow", function (event) {
 
-            var isUpdate = false;
             selectChallengeId = 0;
 
             console.log("Click table");
@@ -161,10 +178,59 @@
             selectChallengeId = challengeIndex;
             console.log("In Challenge select");
             console.log(selectUserId + " " + selectChallengeId);
-            if (selectUserId > 0 && selectChallengeId > 0) {
-                runUserChallengeResultsQuery(selectUserId, selectChallengeId);
+            if (selectUserId === 0) {
+                alert("Choose a user first");
+            }
+            else {
+                runUserSelectChallenge(selectUserId, selectChallengeId);
             }
         });
+
+        // Set a the user selected challenge
+        function runUserSelectChallenge(userId, challengeId) {
+
+            console.log("In user select challenge");
+            return;
+
+            // Clear current challenge details rows below header
+            $("#user-challenge-results-table").find("tr:gt(0)").remove();
+
+            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+            $.ajax({
+                url: "/api/user_challenge_results_view/" + userId + "/" + challengeId,
+                method: "GET"
+            })
+                .then(function (tableData) {
+                    console.log(tableData);
+                    // Loop through and display each of the customers
+                    for (var i = 0; i < tableData.length; i++) {
+                        console.log(tableData);
+
+                        // Create update and remove buttons
+                        var updateButton = $("<button>").html("<span class='glyphicon glyphicon-edit'>U</span>").addClass(
+                            "updateButton").attr("data-key", tableData[i].id);
+                        var isDoneCheckBox = $('<input type="checkbox"/>').addClass("isDoneCheckBox").attr("data-key", tableData[i].id);
+
+                        // Create the new row
+                        var newRow = $("<tr>").append(
+                            $("<td>").text(tableData[i].id),
+                            $("<td>").text(tableData[i].userId),
+                            $("<td>").text(tableData[i].challengeId),
+                            $("<td>").text(tableData[i].challengeDetailId),
+                            $("<td>").text(tableData[i].goal),
+                            $("<td>").text(tableData[i].goalOrder),
+                            $("<td>").text(tableData[i].isDone),
+                            $("<td>").html(isDoneCheckBox)
+                        );
+                        newRow.attr("data-key", tableData[i].challengeId);
+                        newRow.addClass("userChallengeResultsRow");
+
+                        // Append the new row to the table
+                        $("#user-challenge-results-table > tbody").append(newRow);
+
+                    }
+                });
+        };
 
         // Get all the users
         function runUserQuery() {
@@ -225,51 +291,6 @@
                     }
                 });
         }
-
-        // Get all the user challenge results
-        function runUserChallengeResultsQuery(userId, challengeId) {
-
-            console.log("In user challenge results");
-
-            // Clear current challenge details rows below header
-            $("#user-challenge-results-table").find("tr:gt(0)").remove();
-
-            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
-            $.ajax({
-                url: "/api/user_challenge_results_view/" + userId + "/" + challengeId,
-                method: "GET"
-            })
-                .then(function (tableData) {
-                    console.log(tableData);
-                    // Loop through and display each of the customers
-                    for (var i = 0; i < tableData.length; i++) {
-                        console.log(tableData);
-
-                        // Create update and remove buttons
-                        var updateButton = $("<button>").html("<span class='glyphicon glyphicon-edit'>U</span>").addClass(
-                            "updateButton").attr("data-key", tableData[i].id);
-                        var isDoneCheckBox = $('<input type="checkbox"/>').addClass("isDoneCheckBox").attr("data-key", tableData[i].id);
-
-                        // Create the new row
-                        var newRow = $("<tr>").append(
-                            $("<td>").text(tableData[i].id),
-                            $("<td>").text(tableData[i].userId),
-                            $("<td>").text(tableData[i].challengeId),
-                            $("<td>").text(tableData[i].challengeDetailId),
-                            $("<td>").text(tableData[i].goal),
-                            $("<td>").text(tableData[i].goalOrder),
-                            $("<td>").text(tableData[i].isDone),
-                            $("<td>").html(isDoneCheckBox)
-                        );
-                        newRow.attr("data-key", tableData[i].challengeId);
-                        newRow.addClass("userChallengeResultsRow");
-
-                        // Append the new row to the table
-                        $("#user-challenge-results-table > tbody").append(newRow);
-
-                    }
-                });
-        };
 
         $(document).on("click", ".isDoneCheckBox", checkWinner);
 

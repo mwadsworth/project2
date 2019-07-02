@@ -22,9 +22,9 @@ app.engine(
 app.set("view engine", "handlebars");
 
 // Routes
-require("./routes/apiRoutes")(app);
 require("./routes/apiUsersRoutes")(app);
 require("./routes/apiChallengesRoutes")(app);
+require("./routes/apiUserChallengesRoutes")(app);
 require("./routes/apiChallengeDetailsRoutes")(app);
 require("./routes/apiUserChallengeResultsRoutes")(app);
 require("./routes/apiUserChallengesViewRoutes")(app);
