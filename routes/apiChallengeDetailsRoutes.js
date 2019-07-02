@@ -8,7 +8,7 @@ module.exports = function(app) {
     });
   });
 
-  // Get a challenge by id
+  // Get all challenge details by challengeId
   app.get("/api/challenge/details/:id", function(req, res) {
     db.challenge_details
       .findAll({

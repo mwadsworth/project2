@@ -26,7 +26,9 @@ require("./routes/apiRoutes")(app);
 require("./routes/apiUsersRoutes")(app);
 require("./routes/apiChallengesRoutes")(app);
 require("./routes/apiChallengeDetailsRoutes")(app);
+require("./routes/apiUserChallengeResultsRoutes")(app);
 require("./routes/apiUserChallengesViewRoutes")(app);
+require("./routes/apiUserChallengeResultsViewRoutes")(app);
 require("./routes/htmlTestRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
