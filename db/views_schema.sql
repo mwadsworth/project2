@@ -33,9 +33,11 @@ CREATE OR REPLACE VIEW user_challenges_view AS
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW user_challenge_results_view AS
     SELECT 
-        b.id AS challengeId,
-        b.name AS challengeName,
+        a.id AS id,
         c.id AS userId,
+        b.id AS challengeId,
+        d.id AS challengeDetailId,
+        b.name AS challengeName,
         c.firstName AS firstName,
         c.lastName AS lastName,
         d.goal AS goal,

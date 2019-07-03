@@ -83,11 +83,37 @@ VALUES (1, 4);
 
 -- user_challenge_results
 INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
-VALUES (1, 1, 4, 13, true);
+VALUES (1, 1, 1, 1, false);
 INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
-VALUES (2, 1, 4, 14, true);
+VALUES (2, 1, 1, 2, false);
 INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
-VALUES (3, 1, 4, 15, true);
+VALUES (3, 1, 1, 3, false);
 INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
-VALUES (4, 1, 4, 16, true);
- 
+VALUES (4, 1, 1, 4, false);
+
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (5, 1, 2, 5, false);
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (6, 1, 2, 6, false);
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (7, 1, 2, 7, false);
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (8, 1, 2, 8, false);
+
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (9, 1, 3, 9, false);
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (10, 1, 3, 10, false);
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (11, 1, 3, 11, false);
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (12, 1, 3, 12, false);
+
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (13, 1, 4, 13, false);
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (14, 1, 4, 14, false);
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (15, 1, 4, 15, false);
+INSERT INTO user_challenge_results(id, userId, challengeId, challengeDetailId, isDone)
+VALUES (16, 1, 4, 16, false);
