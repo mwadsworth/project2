@@ -13,8 +13,7 @@ module.exports = function(app) {
     db.user_challenges
       .findAll({
         where: {
-          userId: req.params.id,
-          challengeId: req.params.cid
+          userId: req.params.id
         }
       })
       .then(function(dbChallenges) {
@@ -56,10 +55,12 @@ module.exports = function(app) {
       });
   });
 
-  // Delete an user challenge by id
-  app.delete("/api/user/challenges/:id", function(req, res) {
+  // Delete an user challenge by user id and challenge id
+  app.delete("/api/user/challenges/:id/:cid", function(req, res) {
     db.user_challenges
-      .destroy({ where: { id: req.params.id } })
+      .destroy({
+        where: { userId: req.params.id, challengeId: req.params.cid }
+      })
       .then(function(dbChallenge) {
         res.json(dbChallenge);
       });

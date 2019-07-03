@@ -22,14 +22,14 @@ module.exports = function(app) {
   });
 
   // Create a new challenge
-  app.post("/api/challenge_details", function(req, res) {
+  app.post("/api/challenge/details", function(req, res) {
     db.challenge_details.create(req.body).then(function(dbChallenge) {
       res.json(dbChallenge);
     });
   });
 
   // PUT route for updating challenge_details
-  app.put("/api/challenge_details", function(req, res) {
+  app.put("/api/challenge/details", function(req, res) {
     db.challenge_details
       .update(req.body, {
         where: {
@@ -42,7 +42,7 @@ module.exports = function(app) {
   });
 
   // Delete an challenge by id
-  app.delete("/api/challenge_details/:id", function(req, res) {
+  app.delete("/api/challenge/details/:id", function(req, res) {
     db.challenge_details
       .destroy({ where: { id: req.params.id } })
       .then(function(dbChallenge) {
