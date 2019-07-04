@@ -17,29 +17,25 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Challenges.associate = function(models) {
-    console.log(models);
-
     Challenges.hasMany(models.challenge_details, {
-      onDelete: "cascade"
+      onDelete: "CASCADE"
     });
 
     Challenges.belongsTo(models.users, {
       as: "creator",
-      through: "user_challenges",
-      ondelete: "cascade"
+      onDelete: "SET NULL"
     });
 
     Challenges.belongsTo(models.users, {
       as: "winner",
-      through: "user_challenges",
-      ondelete: "cascade"
+      onDelete: "SET NULL"
     });
 
     // A Challenge many to many connection to Users with UserChallenges
     Challenges.belongsToMany(models.users, {
       as: "challenge",
       through: "user_challenges",
-      ondelete: "cascade"
+      onDelete: "cascade"
     });
   };
 

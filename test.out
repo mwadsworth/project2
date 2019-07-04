@@ -1,0 +1,339 @@
+diff --git a/models/test/challenges.html b/models/test/challenges.html
+index 6214dfb..25dbfd3 100644
+--- a/models/test/challenges.html
++++ b/models/test/challenges.html
+@@ -52,6 +52,33 @@
+                 <th scope="col">URL</th>
+                 <th scope="col">Update</th>
+                 <th scope="col">Delete</th>
++                <th scope="col">Details</th>
++              </tr>
++            </thead>
++            <tbody>
++            </tbody>
++          </table>
++        </div>
++      </div>
++    </div>
++
++    <!-- Challenge Details -->
++    <div class="row">
++      <div class="col-md-12">
++
++        <!-- Challenge Details-->
++        <div class="table-responsive">
++          <table class="table table-striped table-bordered table-condensed table-sm table-hover"
++            id="challenge-details-table">
++            <thead>
++              <tr>
++                <!-- The scope attribute specifies that this is a header for a column -->
++                <th scope="col">ID</th>
++                <th scope="col">Challenge ID</th>
++                <th scope="col">Goal</th>
++                <th scope="col">Goal Order</th>
++                <th scope="col">Update</th>
++                <th scope="col">Delete</th>
+               </tr>
+             </thead>
+             <tbody>
+@@ -94,7 +121,45 @@
+                   <input type="text" class="form-control form-control-sm" id="challenge-url">
+                 </div>
+               </div>
+-              <button type="submit" class="btn btn-primary submit">Submit</button>
++              <button type="submit" class="btn btn-primary submit" id="challengeBtn">Submit</button>
++            </form>
++
++          </div>
++          <div class="modal-footer">
++            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
++          </div>
++        </div>
++      </div>
++    </div>
++
++    <!-- Modal dialog to challenge details -->
++    <div class="modal fade" id="challengeDetailModal" tabindex="-1" role="dialog" aria-labelledby="challengeModalTitle"
++      aria-hidden="true">
++      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
++        <div class="modal-content">
++          <div class="modal-header">
++            <h5 class="modal-title" id="challengeDetailModalTitle">Challenge Details</h5>
++            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
++              <span aria-hidden="true">&times;</span>
++            </button>
++          </div>
++          <div class="modal-body" id="modalText">
++
++            <!-- Challenge Detail Update -->
++            <form role="form">
++              <div class="form-group row">
++                <label class="col-sm-3 col-form-label col-form-label-sm" for="detail-goal">Goal</label>
++                <div class="col-sm-9">
++                  <input type="text" class="form-control form-control-sm" id="detail-goal">
++                </div>
++              </div>
++              <div class="form-group row">
++                <label class="col-sm-3 col-form-label col-form-label-sm" for="detail-goal-order">Goal Order</label>
++                <div class="col-sm-9">
++                  <input type="text" class="form-control form-control-sm" id="detail-goal-order">
++                </div>
++              </div>
++              <button type="submit" class="btn btn-primary submit" id="detailBtn">Submit</button>
+             </form>
+ 
+           </div>
+@@ -117,6 +182,8 @@
+   <script type="text/javascript">
+     var isUpdate = false;
+     var updateChallengeId = 0;
++    var currentChallengeId;
++
+     // In this code, jQuery is used to "download" the data from our server
+     // We then dynamically display this content in our table. This is very similar to the group projects you just completed.
+     // It's also very similar to the NYT search application. In fact, I copied a ton of code from there.
+@@ -137,6 +204,8 @@
+               "updateButton").attr("data-key", tableData[i].id);
+             var removeButton = $("<button>").html("<span class='glyphicon glyphicon-remove'>R</span>").addClass(
+               "removeButton").attr("data-key", tableData[i].id);
++            var addDetailButton = $("<button>").html("<span class='glyphicon glyphicon-remove'>A</span>").addClass(
++              "addDetailButton").attr("data-key", tableData[i].id);
+ 
+             // Create the new row
+             var newRow = $("<tr>").append(
+@@ -145,9 +214,11 @@
+               $("<td>").text(tableData[i].prize),
+               $("<td>").html(tableData[i].url),
+               $("<td>").html(updateButton),
+-              $("<td>").html(removeButton)
++              $("<td>").html(removeButton),
++              $("<td>").html(addDetailButton)
+             );
+             newRow.attr("data-key", tableData[i].id);
++            newRow.addClass("challengeRow");
+ 
+             // Append the new row to the table
+             $("#challenges-table > tbody").append(newRow);
+@@ -156,6 +227,72 @@
+         });
+     }
+ 
++    // Clicked on a challenge - populate the challenge details this user has 
++    // chosen below
++    $("#challenges-table").on("click", ".challengeRow", function (event) {
++
++      currentChallengeId = 0;
++
++      console.log("Click table");
++      console.log($(this).closest("tr"));
++      console.log($(this).closest("tr")[0].rowIndex);
++      console.log($(this).closest("tr").find('td:eq(0)').text());
++      $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
++
++      var challengeIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
++      currentChallengeId = challengeIndex;
++      console.log("In Challenge select");
++      console.log(currentChallengeId);
++      runChallengeDetailQuery();
++    });
++
++
++    // Run challenge detail query on current challenge
++    function runChallengeDetailQuery() {
++
++      if (typeof currentChallengeId === "undefined") {
++        return;
++      }
++
++      // Clear current selected challenges
++      $("#challenge-details-table").find("tr:gt(0)").remove();
++
++
++      // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
++      $.ajax({
++        url: "/api/challenge/details/" + currentChallengeId,
++        method: "GET"
++      })
++        .then(function (tableData) {
++          console.log(tableData);
++
++          // Loop through and display each of the challenges
++          for (var i = 0; i < tableData.length; i++) {
++
++            // Create update and remove buttons
++            var updateButton = $("<button>").html("<span class='glyphicon glyphicon-edit'>U</span>").addClass(
++              "updateDetailButton").attr("data-key", tableData[i].id);
++            var removeButton = $("<button>").html("<span class='glyphicon glyphicon-remove'>R</span>").addClass(
++              "removeDetailButton").attr("data-key", tableData[i].id);
++
++            // Create the new row
++            var newRow = $("<tr>").append(
++              $("<td>").text(tableData[i].id),
++              $("<td>").text(tableData[i].challengeId),
++              $("<td>").text(tableData[i].goal),
++              $("<td>").text(tableData[i].goalOrder),
++              $("<td>").html(updateButton),
++              $("<td>").html(removeButton)
++            );
++            newRow.attr("data-key", tableData[i].id);
++
++            // Append the new row to the table
++            $("#challenge-details-table > tbody").append(newRow);
++
++          }
++        });
++    }
++
+     $(document).on("click", ".removeButton", removeRow);
+     $(document).on("click", ".updateButton", updateRow);
+ 
+@@ -163,17 +300,13 @@
+       console.log("Remove row ");
+       console.log($(this).attr("data-key"));
+       var id = $(this).attr("data-key");
+-      var delChallenge = {
+-        challengeId: id
+-      };
+-      console.log(delChallenge);
+ 
+       // This line is the magic. It"s very similar to the standard ajax function we used.
+       // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
+       // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+       // depending on if a tables is available or not.
+       $.ajax({
+-        url: "/api/challenges" + id,
++        url: "/api/challenges/" + id,
+         method: "DELETE"
+       })
+         .then(function (data) {
+@@ -184,6 +317,7 @@
+           else {
+             console.log("Did not work");
+           }
++          location.reload();
+ 
+         });
+ 
+@@ -201,7 +335,7 @@
+     });
+ 
+     // Add or update a challenge
+-    $(".submit").on("click", function (event) {
++    $("#challengeBtn").on("click", function (event) {
+       event.preventDefault();
+       if (isUpdate) {
+         var newChallenge = {
+@@ -264,6 +398,7 @@
+ 
+     });
+ 
++    // Update challenge row
+     function updateRow() {
+       isUpdate = true;
+       $("#challengeModalTitle").html("Update Challenge");
+@@ -282,12 +417,80 @@
+         });
+     };
+ 
++    // Add?update a challenge detail
++    $(".addDetailButton").on("click", function (event) {
++      isUpdate = false;
++      $("#challengeModalTitle").html("Add Challenge");
++      // Clear the form to start
++      $("#challenge-name").val("");
++      $("#challenge-prize").val("");
++      $("#challenge-url").val("");
++      $('#challengeModal').modal('show');
++    });
++
++
++    // Add or update a challenge detail
++    $("#detailBtn").on("click", function (event) {
++      event.preventDefault();
++      if (isUpdate) {
++        var newChallengeDetail = {
++          id: updateChallengeDetailId,
++          name: $("#detail-goal").val().trim(),
++          prize: $("#detail-goal-order").val().trim()
++        };
++      }
++      else {
++        var newChallengeDetail = {
++          name: $("#detail-goal").val().trim(),
++          prize: $("#detail-goal-order").val().trim()
++        };
++      }
++
++      // Update a challenge detail
++      if (isUpdate) {
++
++        $.ajax({
++          url: "/api/challenge/details",
++          method: "PUT",
++          contentType: 'application/json',
++          data: JSON.stringify(newChallengeDetail) // access in body
++
++        })
++          .done(function () {
++            console.log('SUCCESS');
++            isUpdate = false;
++            $("#challengeDetailModalTitle").html("Add Challenge Detail");
++
++          }).fail(function (msg) {
++            console.log('FAIL');
++          }).always(function (msg) {
++            console.log('ALWAYS');
++          });
++      }
++      else {
++        $.post("/api/challenge/details", newChallengeDetail,
++          function (data) {
++            if (data) {
++              console.log("Added a new challenge detail");
++            }
++            else {
++              alert("Did not work");
++            }
++          });
++      }
++
++      // Clear the form after submitting
++      $("#detail-goal").val("");
++      $("#detail-goal-order").val("");
++
++    });
++
+     // Run Queries!
+     // ==========================================
+     runChallengeQuery();
++    runChallengeDetailQuery();
+   </script>
+ 
+ </body>
+ 
+-
+ </html>
+\ No newline at end of file
+diff --git a/models/test/users.html b/models/test/users.html
+index c37fa3c..b905dd2 100644
+--- a/models/test/users.html
++++ b/models/test/users.html
+@@ -163,10 +163,6 @@
+       console.log("Remove row ");
+       console.log($(this).attr("data-key"));
+       var id = $(this).attr("data-key");
+-      var delUser = {
+-        id: id
+-      };
+-      console.log(delUser);
+ 
+       // This line is the magic. It"s very similar to the standard ajax function we used.
+       // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
+@@ -184,6 +180,7 @@
+           else {
+             console.log("Did not work");
+           }
++          location.reload();
+ 
+         });
+ 

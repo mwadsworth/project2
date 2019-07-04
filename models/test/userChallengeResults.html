@@ -134,8 +134,11 @@
             console.log($(this).closest("tr"));
             console.log($(this).closest("tr")[0].rowIndex);
             console.log($(this).closest("tr").find('td:eq(0)').text());
+
+            // Highlight selected user row
             $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
 
+            // Get the userId from the current row
             var userIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
             selectUserId = userIndex;
             console.log("In User select");
@@ -249,6 +252,15 @@
                         var updateButton = $("<button>").html("<span class='glyphicon glyphicon-edit'>U</span>").addClass(
                             "updateButton").attr("data-key", tableData[i].id);
                         var isDoneCheckBox = $('<input type="checkbox"/>').addClass("isDoneCheckBox").attr("data-key", tableData[i].id);
+                        console.log("isDone");
+                        console.log(tableData[i].isDone);
+                        if (tableData[i].isDone === true) {
+                            $(isDoneCheckBox).prop("checked", true);
+                        }
+                        else {
+                            $(isDoneCheckBox).prop("checked", false);
+
+                        }
 
                         // Create the new row
                         var newRow = $("<tr>").append(
@@ -278,12 +290,139 @@
         function checkWinner() {
             console.log("Check Winner");
             console.log($(this).attr("data-key"));
-            var table = $("#user-challenge-results-table > tbody");
-            $('#user-challenge-results-table tr').each(function () {
-                $(this).find('td').each(function () {
-                    console.log($(this).text());
-                })
+            console.log($(this));
+
+            var id = $(this).attr("data-key");
+            var isDone = $(this)[0].checked;
+            var newIsDone = {
+                id: id,
+                isDone: isDone
+            };
+            // Update a user challenge result
+            $.ajax({
+                url: "/api/user/challenge/results",
+                method: "PUT",
+                contentType: 'application/json',
+                data: JSON.stringify(newIsDone) // access in body
+
             })
+                .done(function () {
+                    console.log('SUCCESS');
+
+                    // Clear current challenge details rows below header
+                    $("#user-challenge-results-table").find("tr:gt(0)").remove();
+
+                    // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+                    $.ajax({
+                        url: "/api/user_challenge_results_view/" + selectUserId + "/" + selectChallengeId,
+                        method: "GET"
+                    })
+                        .then(function (tableData) {
+                            console.log(tableData);
+                            // Loop through and display each of the customers
+                            for (var i = 0; i < tableData.length; i++) {
+                                console.log(tableData);
+
+                                // Create update and remove buttons
+                                var updateButton = $("<button>").html("<span class='glyphicon glyphicon-edit'>U</span>").addClass(
+                                    "updateButton").attr("data-key", tableData[i].id);
+                                var isDoneCheckBox = $('<input type="checkbox"/>').addClass("isDoneCheckBox").attr("data-key", tableData[i].id);
+                                console.log("isDone");
+                                console.log(tableData[i].isDone);
+                                if (tableData[i].isDone === true) {
+                                    $(isDoneCheckBox).prop("checked", true);
+                                }
+                                else {
+                                    $(isDoneCheckBox).prop("checked", false);
+
+                                }
+                                // Create the new row
+                                var newRow = $("<tr>").append(
+                                    $("<td>").text(tableData[i].id),
+                                    $("<td>").text(tableData[i].userId),
+                                    $("<td>").text(tableData[i].challengeId),
+                                    $("<td>").text(tableData[i].challengeDetailId),
+                                    $("<td>").text(tableData[i].goal),
+                                    $("<td>").text(tableData[i].goalOrder),
+                                    $("<td>").text(tableData[i].isDone),
+                                    $("<td>").html(isDoneCheckBox)
+                                );
+                                newRow.attr("data-key", tableData[i].challengeId);
+                                newRow.addClass("userChallengeResultsRow");
+
+                                // Append the new row to the table
+                                $("#user-challenge-results-table > tbody").append(newRow);
+
+                            }
+                            var table = $("#user-challenge-results-table > tbody");
+                            var data = [];
+                            var isWinner = true;
+                            table.find('tr').each(function (rowIndex, r) {
+                                var cols = [];
+                                $(this).find('th,td').each(function (colIndex, c) {
+                                    cols.push(c.textContent);
+
+                                    if (parseInt(colIndex) === 6) {
+                                        console.log(c.textContent);
+
+                                        if (c.textContent === "false") {
+                                            isWinner = false;
+                                        }
+                                    }
+                                });
+                                data.push(cols);
+                            });
+                            console.log(data);
+                            if (isWinner) {
+                                console.log("Winner");
+                            }
+
+                        });
+
+
+                }).fail(function (msg) {
+                    console.log('FAIL');
+                }).always(function (msg) {
+                    console.log('ALWAYS');
+                });
+
+            // if ($(this)[0].checked) {
+            //     console.log("true");
+            //     isDone = true;
+            //     postCheck(id, isDone);
+            // } else {
+            //     console.log("false");
+            //     isDone = false;
+            //     postCheck(id, isDone);
+            // }
+        }
+
+        // Mark a goal state
+        function postCheck(id, isDone) {
+
+            var newIsDone = {
+                id: id,
+                isDone: isDone
+            };
+
+            // Update a user challenge result
+
+            $.ajax({
+                url: "/api/user/challenge/results",
+                method: "PUT",
+                contentType: 'application/json',
+                data: JSON.stringify(newIsDone) // access in body
+
+            })
+                .done(function () {
+                    console.log('SUCCESS');
+
+                }).fail(function (msg) {
+                    console.log('FAIL');
+                }).always(function (msg) {
+                    console.log('ALWAYS');
+                });
+
         }
 
         // Run Queries!

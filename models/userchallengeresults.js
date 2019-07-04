@@ -14,15 +14,14 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   UserChallengeResults.associate = function(models) {
-    console.log("Here3");
     UserChallengeResults.belongsTo(models.users, {
-      onDelete: "cascade"
+      onDelete: "CASCADE"
     });
     UserChallengeResults.belongsTo(models.challenges, {
-      onDelete: "cascade"
+      onDelete: "CASCADE"
     });
     UserChallengeResults.belongsTo(models.challenge_details, {
-      onDelete: "cascade"
+      onDelete: "CASCADE"
     });
   };
 

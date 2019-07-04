@@ -163,10 +163,6 @@
       console.log("Remove row ");
       console.log($(this).attr("data-key"));
       var id = $(this).attr("data-key");
-      var delUser = {
-        id: id
-      };
-      console.log(delUser);
 
       // This line is the magic. It"s very similar to the standard ajax function we used.
       // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
@@ -184,6 +180,7 @@
           else {
             console.log("Did not work");
           }
+          location.reload();
 
         });
 
@@ -197,7 +194,6 @@
       $("#user-first-name").val("");
       $("#user-last-name").val("");
       $("#user-email").val("");
-
       $('#userModal').modal('show');
     });
 

@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
     Users.belongsToMany(models.challenges, {
       as: "user",
       through: "user_challenges",
-      ondelete: "cascade"
+      onDelete: "CASCADE"
     });
   };
 
