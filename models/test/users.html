@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <!-- Modal dialog to update users -->
+    <!-- Modal dialog to add or update users -->
     <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalTitle"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
@@ -94,7 +94,7 @@
                   <input type="text" class="form-control form-control-sm" id="user-email">
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary submit">Submit</button>
+              <button type="submit" class="btn btn-primary submit" id="userBtn">Submit</button>
             </form>
 
           </div>
@@ -117,6 +117,41 @@
   <script type="text/javascript">
     var isUpdate = false;
     var updateUserId = 0;
+    var currentUserId;
+
+
+    // Clicked on a user - save the user to localStorage
+    $("#users-table").on("click", ".userRow", function (event) {
+
+      currentUserId = 0;
+
+      console.log("Click table");
+      console.log($(this).closest("tr"));
+      console.log($(this).closest("tr")[0].rowIndex);
+      console.log($(this).closest("tr").find('td:eq(0)').text());
+      $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
+
+      currentUserId = parseInt($(this).closest("tr").find('td:eq(0)').text());
+      firstName = $(this).closest("tr").find('td:eq(1)').text();
+      lastName = $(this).closest("tr").find('td:eq(2)').text();
+      email = $(this).closest("tr").find('td:eq(3)').text();
+
+      // Clear localStorage
+      localStorage.clear();
+
+      console.log(firstName);
+      console.log(lastName);
+      console.log(email);
+      console.log(currentUserId);
+      // Store all content into localStorage
+      localStorage.setItem("userId", currentUserId);
+      localStorage.setItem("firstName", firstName);
+      localStorage.setItem("lastName", lastName);
+      localStorage.setItem("email", email);
+
+    });
+
+
     // In this code, jQuery is used to "download" the data from our server
     // We then dynamically display this content in our table. This is very similar to the group projects you just completed.
     // It's also very similar to the NYT search application. In fact, I copied a ton of code from there.
@@ -148,6 +183,7 @@
               $("<td>").html(removeButton)
             );
             newRow.attr("data-key", tableData[i].id);
+            newRow.addClass("userRow");
 
             // Append the new row to the table
             $("#users-table > tbody").append(newRow);
@@ -198,8 +234,9 @@
     });
 
     // Add or update a user
-    $(".submit").on("click", function (event) {
+    $("#userBtn").on("click", function (event) {
       event.preventDefault();
+
       if (isUpdate) {
         var newUser = {
           id: updateUserId,
@@ -223,25 +260,24 @@
 
       // Update a user
       if (isUpdate) {
-
         $.ajax({
           url: "/api/users",
           method: "PUT",
           contentType: 'application/json',
           data: JSON.stringify(newUser) // access in body
-
         })
           .done(function () {
             console.log('SUCCESS');
             isUpdate = false;
             $("#userModalTitle").html("Add User");
-
           }).fail(function (msg) {
             console.log('FAIL');
           }).always(function (msg) {
             console.log('ALWAYS');
           });
       }
+
+      // Add a user
       else {
         $.post("/api/users", newUser,
           function (data) {
@@ -258,6 +294,9 @@
       $("#user-first-name").val("");
       $("#user-last-name").val("");
       $("#user-email").val("");
+
+      $('#userModal').modal('hide');
+      location.reload();
 
     });
 

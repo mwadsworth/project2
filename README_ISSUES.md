@@ -4,6 +4,7 @@
 
 ### Sequelize
 
+- https://medium.com/riipen-engineering/limitations-of-sequelize-f131ecf50c3a
 - Problems referencing a composite (multi-column) primary key as a foreign key
 - Difficulty using Views in sequelize
 - Problems with ON DELETE CASCADE working

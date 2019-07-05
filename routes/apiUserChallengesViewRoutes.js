@@ -19,7 +19,28 @@ module.exports = function(app) {
       });
   });
 
-  // Get a challenge by id
+  // Get a challenge by userId
+  app.get("/api/user_challenges_view/:id", function(req, res) {
+    db.user_challenges_view
+      .findAll({
+        where: {
+          userId: req.params.id
+        },
+        attributes: [
+          "challengeId",
+          "challengeName",
+          "userId",
+          "firstName",
+          "lastName",
+          "prize"
+        ]
+      })
+      .then(function(dbChallenges) {
+        res.json(dbChallenges);
+      });
+  });
+
+  // Get a challenge by userId and challengeId
   app.get("/api/user_challenges_view/:id/:cid", function(req, res) {
     db.user_challenges_view
       .findOne({

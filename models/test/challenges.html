@@ -239,7 +239,6 @@
       runChallengeDetailQuery();
     });
 
-
     // Run challenge detail query on current challenge
     function runChallengeDetailQuery() {
 
@@ -355,6 +354,7 @@
     // Add or update a challenge
     $("#challengeBtn").on("click", function (event) {
       event.preventDefault();
+
       if (isUpdate) {
         var newChallenge = {
           id: updateChallengeId,
@@ -383,13 +383,14 @@
             console.log('SUCCESS');
             isUpdate = false;
             $("#challengeModalTitle").html("Add Challenge");
-
           }).fail(function (msg) {
             console.log('FAIL');
           }).always(function (msg) {
             console.log('ALWAYS');
           });
       }
+
+      // Add a challenge
       else {
         $.post("/api/challenges", newChallenge,
           function (data) {
@@ -405,6 +406,8 @@
       // Clear the form after submitting
       $("#challenge-name").val("");
       $("#challenge-prize").val("");
+
+      $('#challengeModal').modal('hide');
 
     });
 
@@ -464,6 +467,9 @@
       // Clear the form after submitting
       $("#detail-goal").val("");
       $("#detail-goal-order").val("");
+
+      $('#challengeDetailModal').modal('hide');
+      location.reload();
 
     });
 

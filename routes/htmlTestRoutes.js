@@ -23,9 +23,6 @@ module.exports = function(app) {
   app.get("/test/challenges", function(req, res) {
     res.sendFile(path.join(__dirname, "../models/test/challenges.html"));
   });
-  app.get("/test/challenge/details", function(req, res) {
-    res.sendFile(path.join(__dirname, "../models/test/challengeDetails.html"));
-  });
   app.get("/test/user/select/challenge", function(req, res) {
     res.sendFile(
       path.join(__dirname, "../models/test/userSelectChallenge.html")
@@ -35,5 +32,8 @@ module.exports = function(app) {
     res.sendFile(
       path.join(__dirname, "../models/test/userChallengeResults.html")
     );
+  });
+  app.get("/test/main", function(req, res) {
+    res.sendFile(path.join(__dirname, "../models/test/main.html"));
   });
 };
