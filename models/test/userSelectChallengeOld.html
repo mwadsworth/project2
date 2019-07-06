@@ -67,7 +67,7 @@
                                 <th scope="col">Challenge ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Prize</th>
-                                <th scope="col">Add</th>
+                                <th scope="col">URL</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -120,9 +120,9 @@
                                     <th scope="col">User ID</th>
                                     <th scope="col">Challenge ID</th>
                                     <th scope="col">Challenge Detail ID</th>
-                                    <th scope="col">Goal</th>
-                                    <th scope="col">Goal Order</th>
                                     <th scope="col">Is Done</th>
+                                    <th scope="col">goalOrder</th>
+                                    <th scope="col">Goal Order</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -141,7 +141,7 @@
 
     </div>
 
-    <!-- Javascript for page -->
+    <!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
     <script type="text/javascript">
 
         var selectUserId;
@@ -166,12 +166,13 @@
             runUserChallengesQuery(selectUserId);
         });
 
-        // Clicked on a challenge - hightlight
+        // Clicked on a challenge - if a user is selected, then add this challenge 
+        // to users challenges
         $("#challenges-table").on("click", ".challengeRow", function (event) {
 
             selectChallengeId = 0;
 
-            console.log("Click challenge table");
+            console.log("Click table");
             console.log($(this).closest("tr"));
             console.log($(this).closest("tr")[0].rowIndex);
             console.log($(this).closest("tr").find('td:eq(0)').text());
@@ -179,48 +180,17 @@
 
             var challengeIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
             selectChallengeId = challengeIndex;
-
+            console.log("In Challenge select");
+            console.log(selectUserId + " " + selectChallengeId);
+            if (typeof selectUserId === "undefined") {
+                alert("Choose a user first");
+            }
+            else {
+                runUserPostSelectChallenge(selectUserId, selectChallengeId);
+            }
         });
 
-        // Clicked on a challenge - hightlight
-        $("#user-challenges-selected-table").on("click", ".userChallengeRow", function (event) {
-
-            var userIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
-            var challengeIndex = parseInt($(this).closest("tr").find('td:eq(1)').text());
-
-            // Clear current selected challenges
-            $("#challenge-details-table").find("tr:gt(0)").remove();
-
-            // Get reults from the view
-            $.ajax({
-                url: "/api/user_challenge_results_view/" + userIndex + "/" + challengeIndex,
-                method: "GET"
-            })
-                .then(function (tableData) {
-                    console.log("Here");
-                    console.log(tableData);
-
-                    // Loop through and display each of the users
-                    for (var i = 0; i < tableData.length; i++) {
-
-                        // Create the new row
-                        var newRow = $("<tr>").append(
-                            $("<td>").text(tableData[i].id),
-                            $("<td>").text(tableData[i].userId),
-                            $("<td>").text(tableData[i].challengeId),
-                            $("<td>").text(tableData[i].challengeDetailId),
-                            $("<td>").text(tableData[i].goal),
-                            $("<td>").text(tableData[i].goalOrder),
-                            $("<td>").text(tableData[i].isDone)
-                        );
-
-                        // Append the new row to the table
-                        $("#challenge-details-table > tbody").append(newRow);
-                    }
-                });
-        });
-
-        // Get all the challenges for this user
+        // Get all the users
         function runUserChallengesQuery(selectUserId) {
             console.log("runUserChallengesQuery " + selectUserId);
 
@@ -248,13 +218,95 @@
                             $("<td>").html(removeButton)
                         );
                         newRow.attr("data-key", tableData[i].id);
-                        newRow.addClass("userChallengeRow");
+                        newRow.addClass("userRow");
 
                         // Append the new row to the table
                         $("#user-challenges-selected-table > tbody").append(newRow);
 
                     }
                 });
+        }
+
+
+        // Set a the user selected challenge
+        function runUserPostSelectChallenge(userId, challengeId) {
+
+            console.log("In user select challenge");
+
+            // Clear current selected challenges
+            $("#user-challenges-selected-table").find("tr:gt(0)").remove();
+
+            var newUserChallenge = {
+                userId: userId,
+                challengeId: challengeId
+            };
+
+            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+            $.post("/api/user/challenges", newUserChallenge,
+                function (data) {
+                    if (data) {
+                        console.log("Added a new user challenge");
+                    }
+                    else {
+                        alert("Did not work");
+                    }
+                    runUserResultsCreate(userId, challengeId);
+                    runUserChallengesQuery(userId);
+                });
+        };
+
+        function runUserResultsCreate(userId, challengeId) {
+
+            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+            $.ajax({
+                url: "/api/challenge/details/" + challengeId,
+                method: "GET"
+            })
+                .then(function (tableData) {
+                    console.log(tableData);
+
+                    // Loop through and display each of the customers
+                    for (var i = 0; i < tableData.length; i++) {
+
+                        var newUserChallengeResult = {
+                            userId: userId,
+                            challengeId: challengeId,
+                            challengeDetailId: tableData[i].id,
+                            isDone: false
+                        }
+                        $.post("/api/user/challenge/results", newUserChallengeResult,
+                            function (data) {
+                                if (data) {
+                                    console.log("Added a new user challenge result");
+                                    console.log(data.id);
+                                    console.log(data.userId);
+                                    console.log(data.challengeId);
+                                    console.log(data.challengeDetailId);
+                                    console.log(data.isDone);
+
+                                    // Create the new row
+                                    var newRow = $("<tr>").append(
+                                        $("<td>").text(data.id),
+                                        $("<td>").text(data.userId),
+                                        $("<td>").text(data.challengeId),
+                                        $("<td>").text(data.challengeDetailId),
+                                        $("<td>").text(data.isDone)
+                                    );
+
+                                    // Append the new row to the table
+                                    $("#challenge-details-table > tbody").append(newRow);
+
+
+                                }
+                                else {
+                                    alert("Did not work");
+                                }
+                            });
+
+
+                    }
+                });
+
         }
 
         // Get all the users
@@ -294,21 +346,21 @@
                 method: "GET"
             })
                 .then(function (tableData) {
+                    console.log("Get challenges");
                     // Loop through and display each of the customers
                     for (var i = 0; i < tableData.length; i++) {
-
-                        var addChallengeButton = $("<button>").html("<span class='glyphicon glyphicon-remove'>A</span>").addClass(
-                            "addChallengeButton").attr("data-key", tableData[i].id);
 
                         // Create the new row
                         var newRow = $("<tr>").append(
                             $("<td>").text(tableData[i].id),
                             $("<td>").text(tableData[i].name),
                             $("<td>").text(tableData[i].prize),
-                            $("<td>").html(addChallengeButton)
+                            $("<td>").text(tableData[i].url)
                         );
                         newRow.attr("data-key", tableData[i].id);
                         newRow.addClass("challengeRow");
+                        console.log("Add challengeRow");
+                        console.log(newRow);
 
                         // Append the new row to the table
                         $("#challenges-table > tbody").append(newRow);
@@ -319,19 +371,6 @@
 
         $(document).on("click", ".isDoneCheckBox", checkWinner);
         $(document).on("click", ".removeButton", removeRow);
-
-        // When the user clicks on the isDone button we check to see
-        // if all goals are complete
-        function checkWinner() {
-            console.log("Check Winner");
-            console.log($(this).attr("data-key"));
-            var table = $("#user-challenge-results-table > tbody");
-            $('#user-challenge-results-table tr').each(function () {
-                $(this).find('td').each(function () {
-                    console.log($(this).text());
-                })
-            })
-        }
 
         function removeRow() {
             console.log("Remove row ");
@@ -373,149 +412,17 @@
 
         };
 
-        // Clicked on a challenge add button - if a user is selected, then add this challenge 
-        // to users challenges
-        $(document).on("click", ".addChallengeButton", function () {
-
-            selectChallengeId = 0;
-
-            console.log("Click add button");
-            console.log($(this).closest("tr"));
-            console.log($(this).closest("tr")[0].rowIndex);
-            console.log($(this).closest("tr").find('td:eq(0)').text());
-            $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
-
-            var challengeIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
-            selectChallengeId = challengeIndex;
-            console.log("In Challenge select");
-            console.log(selectUserId + " " + selectChallengeId);
-            // Check if user - challenge exists
-            if (typeof selectUserId === "undefined") {
-                alert("Choose a user first");
-            }
-            else {
-                runUserCheckSelectChallenge(selectUserId, selectChallengeId);
-            }
-
-        });
-
-        // Check if a user - challenge already exists
-        function runUserCheckSelectChallenge(userId, challengeId) {
-
-            console.log("In user check challenge");
-
-            // Call GET method for a userId - challengeId
-            $.get("/api/user/challenges/" + userId + "/" + challengeId,
-                function (data) {
-                    if (data !== null) {
-                        isAlreadySelected = true;
-                    }
-                    else {
-                        console.log("Go for it!");
-                        runUserPostSelectChallenge(userId, challengeId);
-                    }
-                });
-        };
-
-        // Set a the user selected challenge
-        function runUserPostSelectChallenge(userId, challengeId) {
-
-            console.log("In user select challenge");
-
-            // Clear current selected challenges
-            $("#user-challenges-selected-table").find("tr:gt(0)").remove();
-
-            var newUserChallenge = {
-                userId: userId,
-                challengeId: challengeId
-            };
-
-            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
-            $.post("/api/user/challenges", newUserChallenge,
-                function (data) {
-                    if (data) {
-                        console.log("Added a new user challenge");
-                    }
-                    else {
-                        alert("Did not work");
-                    }
-
-                    // Create rows in the results table for this user - challenge
-                    runUserResultsCreate(userId, challengeId);
-
-                    // Reload the user - challenge table
-                    runUserChallengesQuery(userId);
-                });
-        };
-
-        function runUserResultsCreate(userId, challengeId) {
-
-            // Clear current selected challenge details
-            $("#challenge-details-table").find("tr:gt(0)").remove();
-
-            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
-            $.ajax({
-                url: "/api/challenge/details/" + challengeId,
-                method: "GET"
+        // When the user clicks on the isDone button we check to see
+        // if all goals are complete
+        function checkWinner() {
+            console.log("Check Winner");
+            console.log($(this).attr("data-key"));
+            var table = $("#user-challenge-results-table > tbody");
+            $('#user-challenge-results-table tr').each(function () {
+                $(this).find('td').each(function () {
+                    console.log($(this).text());
+                })
             })
-                .then(function (tableData) {
-                    console.log(tableData);
-
-                    // Loop through challenge details
-                    for (var i = 0; i < tableData.length; i++) {
-
-                        var newUserChallengeResult = {
-                            userId: userId,
-                            challengeId: challengeId,
-                            challengeDetailId: tableData[i].id,
-                            isDone: false
-                        }
-                        $.post("/api/user/challenge/results", newUserChallengeResult,
-                            function (data) {
-                                if (data) {
-                                    console.log("Added a new user challenge result");
-                                    console.log(data.id);
-                                    console.log(data.userId);
-                                    console.log(data.challengeId);
-                                    console.log(data.challengeDetailId);
-                                    console.log(data.isDone);
-
-                                    // Get reults from the view
-                                    $.ajax({
-                                        url: "/api/user_challenge_results_view/" + data.userId + "/" + data.challengeId + "/" + data.challengeDetailId,
-                                        method: "GET"
-                                    })
-                                        .then(function (tableData) {
-                                            console.log("Here");
-                                            console.log(tableData);
-
-                                            // Loop through and display each of the users
-                                            for (var i = 0; i < tableData.length; i++) {
-
-                                                // Create the new row
-                                                var newRow = $("<tr>").append(
-                                                    $("<td>").text(tableData[i].id),
-                                                    $("<td>").text(tableData[i].userId),
-                                                    $("<td>").text(tableData[i].challengeId),
-                                                    $("<td>").text(tableData[i].challengeDetailId),
-                                                    $("<td>").text(tableData[i].goal),
-                                                    $("<td>").text(tableData[i].goalOrder),
-                                                    $("<td>").text(tableData[i].isDone)
-                                                );
-
-                                                // Append the new row to the table
-                                                $("#challenge-details-table > tbody").append(newRow);
-                                            }
-                                        });
-                                }
-                                else {
-                                    alert("Did not work");
-                                }
-                            });
-
-                    }
-                });
-
         }
 
         // Run Queries!

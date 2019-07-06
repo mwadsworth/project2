@@ -36,4 +36,9 @@ module.exports = function(app) {
   app.get("/test/main", function(req, res) {
     res.sendFile(path.join(__dirname, "../models/test/main.html"));
   });
+  app.get("/test/main/select", function(req, res) {
+    res.sendFile(
+      path.join(__dirname, "../models/test/mainUserSelectChallenge.html")
+    );
+  });
 };

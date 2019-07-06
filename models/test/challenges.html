@@ -408,6 +408,7 @@
       $("#challenge-prize").val("");
 
       $('#challengeModal').modal('hide');
+      location.reload();
 
     });
 
@@ -469,7 +470,12 @@
       $("#detail-goal-order").val("");
 
       $('#challengeDetailModal').modal('hide');
-      location.reload();
+      if (isUpdate) {
+        location.reload();
+      }
+      else {
+        location.reload();
+      }
 
     });
 
