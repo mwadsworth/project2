@@ -5,7 +5,7 @@ June 24, 2019
 ## Project Members
 
 - Marilyn Wadsworth
-- Serena Gibson
+- Serena Brown
 - Paul Raab
 
 ## Project Title
