@@ -144,14 +144,14 @@
     <!-- Javascript for page -->
     <script type="text/javascript">
 
-        var selectUserId;
-        var selectChallengeId;
+        var currentUserId;
+        var currentChallengeId;
 
         // Clicked on a user - populate the challenges this user has 
         // chosen below
         $("#users-table").on("click", ".userRow", function (event) {
 
-            selectUserId = 0;
+            currentUserId = 0;
 
             console.log("Click table");
             console.log($(this).closest("tr"));
@@ -160,16 +160,16 @@
             $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
 
             var userIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
-            selectUserId = userIndex;
+            currentUserId = userIndex;
             console.log("In User select");
-            console.log(selectUserId + " " + selectChallengeId);
-            runUserChallengesQuery(selectUserId);
+            console.log(currentUserId + " " + currentChallengeId);
+            runUserChallengesQuery(currentUserId);
         });
 
         // Clicked on a challenge - hightlight
         $("#challenges-table").on("click", ".challengeRow", function (event) {
 
-            selectChallengeId = 0;
+            currentChallengeId = 0;
 
             console.log("Click challenge table");
             console.log($(this).closest("tr"));
@@ -178,7 +178,7 @@
             $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
 
             var challengeIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
-            selectChallengeId = challengeIndex;
+            currentChallengeId = challengeIndex;
 
         });
 
@@ -221,15 +221,15 @@
         });
 
         // Get all the challenges for this user
-        function runUserChallengesQuery(selectUserId) {
-            console.log("runUserChallengesQuery " + selectUserId);
+        function runUserChallengesQuery(currentUserId) {
+            console.log("runUserChallengesQuery " + currentUserId);
 
             // Clear current selected challenges
             $("#user-challenges-selected-table").find("tr:gt(0)").remove();
 
             // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
             $.ajax({
-                url: "/api/user/challenges/" + selectUserId,
+                url: "/api/user/challenges/" + currentUserId,
                 method: "GET"
             })
                 .then(function (tableData) {
@@ -377,7 +377,7 @@
         // to users challenges
         $(document).on("click", ".addChallengeButton", function () {
 
-            selectChallengeId = 0;
+            currentChallengeId = 0;
 
             console.log("Click add button");
             console.log($(this).closest("tr"));
@@ -386,15 +386,15 @@
             $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
 
             var challengeIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
-            selectChallengeId = challengeIndex;
+            currentChallengeId = challengeIndex;
             console.log("In Challenge select");
-            console.log(selectUserId + " " + selectChallengeId);
+            console.log(currentUserId + " " + currentChallengeId);
             // Check if user - challenge exists
-            if (typeof selectUserId === "undefined") {
+            if (typeof currentUserId === "undefined") {
                 alert("Choose a user first");
             }
             else {
-                runUserCheckSelectChallenge(selectUserId, selectChallengeId);
+                runUserCheckSelectChallenge(currentUserId, currentChallengeId);
             }
 
         });

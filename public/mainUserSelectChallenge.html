@@ -259,6 +259,8 @@
         function runUserCheckSelectChallenge(userId, challengeId) {
 
             console.log("In user check challenge");
+            console.log(userId);
+            console.log(challengeId);
 
             // Call GET method for a userId - challengeId
             $.get("/api/user/challenges/" + userId + "/" + challengeId,
