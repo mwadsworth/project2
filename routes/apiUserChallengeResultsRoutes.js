@@ -50,4 +50,15 @@ module.exports = function(app) {
         res.json(dbChallenge);
       });
   });
+
+  // Delete an user challenge result by userId and challengeId
+  app.delete("/api/user/challenge/results/:id/:cid", function(req, res) {
+    db.user_challenge_results
+      .destroy({
+        where: { userId: req.params.id, challengeId: req.params.cid }
+      })
+      .then(function(dbChallenge) {
+        res.json(dbChallenge);
+      });
+  });
 };

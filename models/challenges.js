@@ -1,9 +1,23 @@
 module.exports = function(sequelize, DataTypes) {
   var Challenges = sequelize.define("challenges", {
     // Giving the Challenges model columns
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      // len is a validation that checks that our todo is between 1 and 140 characters
+      validate: {
+        len: [1, 140]
+      }
+    },
+    prize: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      // len is a validation that checks that our todo is between 1 and 140 characters
+      validate: {
+        len: [1, 140]
+      }
+    },
     url: DataTypes.STRING,
-    prize: DataTypes.STRING,
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,
@@ -17,29 +31,25 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Challenges.associate = function(models) {
-    console.log(models);
-
     Challenges.hasMany(models.challenge_details, {
-      onDelete: "cascade"
+      onDelete: "CASCADE"
     });
 
     Challenges.belongsTo(models.users, {
       as: "creator",
-      through: "user_challenges",
-      ondelete: "cascade"
+      onDelete: "SET NULL"
     });
 
     Challenges.belongsTo(models.users, {
       as: "winner",
-      through: "user_challenges",
-      ondelete: "cascade"
+      onDelete: "SET NULL"
     });
 
     // A Challenge many to many connection to Users with UserChallenges
     Challenges.belongsToMany(models.users, {
       as: "challenge",
       through: "user_challenges",
-      ondelete: "cascade"
+      onDelete: "cascade"
     });
   };
 

@@ -23,9 +23,16 @@ module.exports = function(app) {
 
   // Create a new challenge
   app.post("/api/challenges", function(req, res) {
-    db.challenges.create(req.body).then(function(dbChallenge) {
-      res.json(dbChallenge);
-    });
+    db.challenges
+      .create(req.body)
+      .then(function(dbChallenge) {
+        res.json(dbChallenge);
+      })
+      .catch(function(err) {
+        // Whenever a validation or flag fails, an error is thrown
+        // We can "catch" the error to prevent it from being "thrown", which could crash our node app
+        res.json(err);
+      });
   });
 
   // PUT route for updating challenges

@@ -376,11 +376,6 @@
             console.log("Remove row ");
             var id = $(this).attr("data-key1");
             var cid = $(this).attr("data-key2");
-            var delChallenge = {
-                userId: id,
-                challengeId: cid
-            };
-            console.log(delChallenge);
 
             // This line is the magic. It"s very similar to the standard ajax function we used.
             // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
@@ -398,6 +393,20 @@
                     else {
                         console.log("Did not work");
                     }
+                    $.ajax({
+                        url: "/api/user/challenge/results/" + id + "/" + cid,
+                        method: "DELETE"
+                    })
+                        .then(function (data) {
+
+                            if (data) {
+                                console.log("Deleted user challenge results");
+                            }
+                            else {
+                                console.log("Did not work");
+                            }
+                        });
+
                     runUserChallengesQuery(id);
                 });
 

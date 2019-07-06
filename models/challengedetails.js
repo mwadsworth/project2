@@ -1,5 +1,4 @@
 module.exports = function(sequelize, DataTypes) {
-
   var ChallengeDetails = sequelize.define("challenge_details", {
     // Giving the Challenges model columns
     goal: DataTypes.STRING,
@@ -17,7 +16,6 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   ChallengeDetails.associate = function(models) {
-    console.log(models.challenges);
     // We're saying that a ChallengeDetails should belong to a Challenges
     // A ChallengeDetails can't be created without an Challenges
     // due to the foreign key constraint

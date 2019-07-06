@@ -31,9 +31,9 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS challenges (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
+	prize VARCHAR(255) NOT NULL,
+	url VARCHAR(255) NULL,
     creatorId INT NULL,
-    url VARCHAR(255) NULL,
-    prize VARCHAR(255) NULL,
     winnerId INT NULL,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS challenge_details (
     INDEX id_idx (id ASC),
     CONSTRAINT fk_challenge1 FOREIGN KEY (challengeId)
         REFERENCES challenges (id)
-        ON DELETE NO ACTION ON UPDATE NO ACTION
+        ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
 -- -----------------------------------------------------
@@ -77,10 +77,10 @@ CREATE TABLE IF NOT EXISTS user_challenges (
     INDEX challenge_id_ixd (challengeId ASC),
     CONSTRAINT fk_user1 FOREIGN KEY (userId)
         REFERENCES users (id)
-        ON DELETE NO ACTION ON UPDATE NO ACTION,
+        ON DELETE CASCADE ON UPDATE NO ACTION,
     CONSTRAINT fk_challenge2 FOREIGN KEY (challengeId)
         REFERENCES challenges (id)
-        ON DELETE NO ACTION ON UPDATE NO ACTION
+        ON DELETE CASCADE ON UPDATE NO ACTION
 );
 
 -- -----------------------------------------------------
@@ -100,11 +100,11 @@ CREATE TABLE IF NOT EXISTS user_challenge_results (
     INDEX challenge_detail_id_idx (challengeDetailId ASC),
     CONSTRAINT fk_user2 FOREIGN KEY (userId)
         REFERENCES users (id)
-        ON DELETE NO ACTION ON UPDATE NO ACTION,
+        ON DELETE CASCADE ON UPDATE NO ACTION,
     CONSTRAINT fk_challenge3 FOREIGN KEY (challengeId)
         REFERENCES challenges (id)
-        ON DELETE NO ACTION ON UPDATE NO ACTION,
+        ON DELETE CASCADE ON UPDATE NO ACTION,
     CONSTRAINT fk_challenge_detail FOREIGN KEY (challengeDetailId)
         REFERENCES challenge_details (id)
-        ON DELETE NO ACTION ON UPDATE NO ACTION
+        ON DELETE CASCADE ON UPDATE NO ACTION
 );
