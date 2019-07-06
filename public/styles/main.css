@@ -1,0 +1,129 @@
+/* Universal CSS */
+body,
+html {
+  height: 100%;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "lato", sans-serif;
+  line-height: 1.7;
+  color: #666;
+}
+
+/* Navbar-Section */
+
+.navbar-default {
+  background: transparent !important;
+  border: none;
+}
+
+.navbar .navbar-brand {
+  color: #ffffff;
+}
+
+.navbar ul li a {
+  color: red !important;
+}
+
+.navbar .active a {
+  color: red !important;
+
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+}
+/* Background-image Styling */
+
+/* .primg1,
+.primg2,
+.primg3 {
+  position: relative;
+  opacity: 0.7;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.primg1 {
+  background-image: url(/Users/serenabrown/Desktop/myTest/images/backgroound5.jpg);
+  min-height: 100%;
+}
+
+.primg2 {
+  background-image: url(/Users/serenabrown/Desktop/myTest/images/backgrouund4.jpg);
+  min-height: 500px;
+}
+
+.primg3 {
+  background-image: url(/Users/serenabrown/Desktop/myTest/images/background.jpg);
+  min-height: 500px;
+}
+
+/* Section */
+
+/* .section {
+  text-align: center;
+  padding: 50px 80px;
+}
+
+.section-light {
+  background-color: #ffffff;
+  color: #666;
+}
+
+.section-dark {
+  background-color: #282e34;
+  color: #ddd;
+}
+
+.prtext {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 27px;
+  letter-spacing: 7px;
+  color: #fff;
+}
+
+.border {
+  background-color: #111;
+  padding: 20px;
+}
+
+.border.trans {
+  background-color: transparent;
+} */ 
+
+footer {
+  background-color: #111;
+  color: #ffffff;
+}
+
+@media (max-width: 468px) {
+  .primg1,
+  primg2,
+  .primg3 {
+    background-attachment: scroll;
+  }
+
+  .prtext {
+    font-size: 15px;
+    letter-spacing: 4px;
+  }
+
+  .section {
+    padding: 50px 10px;
+  }
+}
+
+
+/* End of landing page */
+
+
+
+
