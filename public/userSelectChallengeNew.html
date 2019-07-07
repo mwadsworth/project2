@@ -147,65 +147,6 @@
         var currentUserId;
         var currentChallengeId;
 
-        // Get all the users
-        function runUserQuery() {
-            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
-            $.ajax({
-                url: "/api/users",
-                method: "GET"
-            })
-                .then(function (tableData) {
-
-                    // Loop through and display each of the users
-                    for (var i = 0; i < tableData.length; i++) {
-
-                        // Create the new row
-                        var newRow = $("<tr>").append(
-                            $("<td>").text(tableData[i].id),
-                            $("<td>").text(tableData[i].firstName),
-                            $("<td>").text(tableData[i].lastName),
-                            $("<td>").text(tableData[i].email)
-                        );
-                        newRow.attr("data-key", tableData[i].id);
-                        newRow.addClass("userRow");
-
-                        // Append the new row to the table
-                        $("#users-table > tbody").append(newRow);
-
-                    }
-                });
-        }
-
-        // Get all the challenges
-        function runChallengeQuery() {
-            $.ajax({
-                url: "/api/challenges",
-                method: "GET"
-            })
-                .then(function (tableData) {
-                    // Loop through and display each of the challenges
-                    for (var i = 0; i < tableData.length; i++) {
-
-                        var addChallengeButton = $("<button>").html("<span class='glyphicon glyphicon-remove'>A</span>").addClass(
-                            "addChallengeButton").attr("data-key", tableData[i].id);
-
-                        // Create the new row
-                        var newRow = $("<tr>").append(
-                            $("<td>").text(tableData[i].id),
-                            $("<td>").text(tableData[i].name),
-                            $("<td>").text(tableData[i].prize),
-                            $("<td>").html(addChallengeButton)
-                        );
-                        newRow.attr("data-key", tableData[i].id);
-                        newRow.addClass("challengeRow");
-
-                        // Append the new row to the table
-                        $("#challenges-table > tbody").append(newRow);
-
-                    }
-                });
-        }
-
         // Clicked on a user - populate the challenges this user has 
         // chosen below
         $("#users-table").on("click", ".userRow", function (event) {
@@ -221,7 +162,7 @@
             var userIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
             currentUserId = userIndex;
             console.log("In User select");
-            console.log(currentUserId);
+            console.log(currentUserId + " " + currentChallengeId);
             runUserChallengesQuery(currentUserId);
         });
 
@@ -240,43 +181,6 @@
             currentChallengeId = challengeIndex;
 
         });
-
-        // Get all the user challenges
-        function runUserChallengesQuery(currentUserId) {
-            console.log("runUserChallengesQuery " + currentUserId);
-
-            // Clear current selected challenges
-            $("#user-challenges-selected-table").find("tr:gt(0)").remove();
-
-            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
-            $.ajax({
-                url: "/api/user/challenges/" + currentUserId,
-                method: "GET"
-            })
-                .then(function (tableData) {
-                    console.log(tableData);
-
-                    // Loop through and display each of the users
-                    for (var i = 0; i < tableData.length; i++) {
-
-                        var removeButton = $("<button>").html("<span class='glyphicon glyphicon-remove'>R</span>").addClass(
-                            "removeButton").attr("data-key1", tableData[i].userId).attr("data-key2", tableData[i].challengeId);
-
-                        // Create the new row
-                        var newRow = $("<tr>").append(
-                            $("<td>").text(tableData[i].userId),
-                            $("<td>").text(tableData[i].challengeId),
-                            $("<td>").html(removeButton)
-                        );
-                        newRow.attr("data-key", tableData[i].id);
-                        newRow.addClass("userChallengeRow");
-
-                        // Append the new row to the table
-                        $("#user-challenges-selected-table > tbody").append(newRow);
-
-                    }
-                });
-        }
 
         // Clicked on a challenge - hightlight
         $("#user-challenges-selected-table").on("click", ".userChallengeRow", function (event) {
@@ -316,6 +220,102 @@
                 });
         });
 
+        // Get all the challenges for this user
+        function runUserChallengesQuery(currentUserId) {
+            console.log("runUserChallengesQuery " + currentUserId);
+
+            // Clear current selected challenges
+            $("#user-challenges-selected-table").find("tr:gt(0)").remove();
+
+            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+            $.ajax({
+                url: "/api/user/challenges/" + currentUserId,
+                method: "GET"
+            })
+                .then(function (tableData) {
+                    console.log(tableData);
+
+                    // Loop through and display each of the users
+                    for (var i = 0; i < tableData.length; i++) {
+
+                        var removeButton = $("<button>").html("<span class='glyphicon glyphicon-remove'>R</span>").addClass(
+                            "removeButton").attr("data-key1", tableData[i].userId).attr("data-key2", tableData[i].challengeId);
+
+                        // Create the new row
+                        var newRow = $("<tr>").append(
+                            $("<td>").text(tableData[i].userId),
+                            $("<td>").text(tableData[i].challengeId),
+                            $("<td>").html(removeButton)
+                        );
+                        newRow.attr("data-key", tableData[i].id);
+                        newRow.addClass("userChallengeRow");
+
+                        // Append the new row to the table
+                        $("#user-challenges-selected-table > tbody").append(newRow);
+
+                    }
+                });
+        }
+
+        // Get all the users
+        function runUserQuery() {
+            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+            $.ajax({
+                url: "/api/users",
+                method: "GET"
+            })
+                .then(function (tableData) {
+
+                    // Loop through and display each of the users
+                    for (var i = 0; i < tableData.length; i++) {
+
+                        // Create the new row
+                        var newRow = $("<tr>").append(
+                            $("<td>").text(tableData[i].id),
+                            $("<td>").text(tableData[i].firstName),
+                            $("<td>").text(tableData[i].lastName),
+                            $("<td>").text(tableData[i].email)
+                        );
+                        newRow.attr("data-key", tableData[i].id);
+                        newRow.addClass("userRow");
+
+                        // Append the new row to the table
+                        $("#users-table > tbody").append(newRow);
+
+                    }
+                });
+        }
+
+        // Get all the challenges
+        function runChallengeQuery() {
+            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+            $.ajax({
+                url: "/api/challenges",
+                method: "GET"
+            })
+                .then(function (tableData) {
+                    // Loop through and display each of the customers
+                    for (var i = 0; i < tableData.length; i++) {
+
+                        var addChallengeButton = $("<button>").html("<span class='glyphicon glyphicon-remove'>A</span>").addClass(
+                            "addChallengeButton").attr("data-key", tableData[i].id);
+
+                        // Create the new row
+                        var newRow = $("<tr>").append(
+                            $("<td>").text(tableData[i].id),
+                            $("<td>").text(tableData[i].name),
+                            $("<td>").text(tableData[i].prize),
+                            $("<td>").html(addChallengeButton)
+                        );
+                        newRow.attr("data-key", tableData[i].id);
+                        newRow.addClass("challengeRow");
+
+                        // Append the new row to the table
+                        $("#challenges-table > tbody").append(newRow);
+
+                    }
+                });
+        }
 
         $(document).on("click", ".isDoneCheckBox", checkWinner);
         $(document).on("click", ".removeButton", removeRow);
@@ -482,6 +482,38 @@
                             function (data) {
                                 if (data) {
                                     console.log("Added a new user challenge result");
+                                    console.log(data.id);
+                                    console.log(data.userId);
+                                    console.log(data.challengeId);
+                                    console.log(data.challengeDetailId);
+                                    console.log(data.isDone);
+
+                                    // Get reults from the view
+                                    $.ajax({
+                                        url: "/api/user_challenge_results_view/" + data.userId + "/" + data.challengeId + "/" + data.challengeDetailId,
+                                        method: "GET"
+                                    })
+                                        .then(function (tableData) {
+                                            console.log("Here0");
+
+                                            // Loop through and display each of the users
+                                            for (var i = 0; i < tableData.length; i++) {
+
+                                                // Create the new row
+                                                var newRow = $("<tr>").append(
+                                                    $("<td>").text(tableData[i].id),
+                                                    $("<td>").text(tableData[i].userId),
+                                                    $("<td>").text(tableData[i].challengeId),
+                                                    $("<td>").text(tableData[i].challengeDetailId),
+                                                    $("<td>").text(tableData[i].goal),
+                                                    $("<td>").text(tableData[i].goalOrder),
+                                                    $("<td>").text(tableData[i].isDone)
+                                                );
+
+                                                // Append the new row to the table
+                                                $("#challenge-details-table > tbody").append(newRow);
+                                            }
+                                        });
                                 }
                                 else {
                                     alert("Did not work");

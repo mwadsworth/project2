@@ -125,14 +125,12 @@
 
         // Get all the challenges
         function runChallengeQuery() {
-            // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
             $.ajax({
                 url: "/api/challenges",
                 method: "GET"
             })
                 .then(function (tableData) {
-                    console.log("Get challenges");
-                    // Loop through and display each of the customers
+                    // Loop through and display each of the challenges
                     for (var i = 0; i < tableData.length; i++) {
 
                         var addChallengeButton = $("<button>").html("<span class='glyphicon glyphicon-remove'>A</span>").addClass(
@@ -158,6 +156,9 @@
         function runUserChallengeQuery() {
 
             console.log("Get user challenges");
+
+            // Clear current selected challenges
+            $("#user-challenges-selected-table").find("tr:gt(0)").remove();
 
             // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
             $.ajax({
@@ -266,6 +267,7 @@
             $.get("/api/user/challenges/" + userId + "/" + challengeId,
                 function (data) {
                     if (data !== null) {
+                        console.log(data);
                         isAlreadySelected = true;
                     }
                     else {
@@ -284,7 +286,7 @@
 
             // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
             $.ajax({
-                url: "/api/user/challenges/" + selectUserId,
+                url: "/api/user_challenges_view/" + selectUserId,
                 method: "GET"
             })
                 .then(function (tableData) {
@@ -298,8 +300,8 @@
 
                         // Create the new row
                         var newRow = $("<tr>").append(
-                            $("<td>").text(tableData[i].userId),
-                            $("<td>").text(tableData[i].challengeId),
+                            $("<td>").text(tableData[i].challengeName),
+                            $("<td>").text(tableData[i].prize),
                             $("<td>").html(removeButton)
                         );
                         newRow.attr("data-key", tableData[i].id);
