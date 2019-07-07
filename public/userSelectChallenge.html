@@ -112,7 +112,7 @@
                     <div class="card-body">
                         <table
                             class="table table-responsive table-striped table-bordered table-condensed table-sm table-hover"
-                            id="challenge-details-table">
+                            id="user-challenge-results-table">
                             <thead>
                                 <tr>
                                     <!-- The scope attribute specifies that this is a header for a column -->
@@ -225,22 +225,6 @@
             runUserChallengesQuery(currentUserId);
         });
 
-        // Clicked on a challenge - hightlight
-        $("#challenges-table").on("click", ".challengeRow", function (event) {
-
-            currentChallengeId = 0;
-
-            console.log("Click challenge table");
-            console.log($(this).closest("tr"));
-            console.log($(this).closest("tr")[0].rowIndex);
-            console.log($(this).closest("tr").find('td:eq(0)').text());
-            $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
-
-            var challengeIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
-            currentChallengeId = challengeIndex;
-
-        });
-
         // Get all the user challenges
         function runUserChallengesQuery(currentUserId) {
             console.log("runUserChallengesQuery " + currentUserId);
@@ -279,13 +263,29 @@
         }
 
         // Clicked on a challenge - hightlight
+        $("#challenges-table").on("click", ".challengeRow", function (event) {
+
+            currentChallengeId = 0;
+
+            console.log("Click challenge table");
+            console.log($(this).closest("tr"));
+            console.log($(this).closest("tr")[0].rowIndex);
+            $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
+
+            var challengeIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
+            currentChallengeId = challengeIndex;
+
+        });
+
+        // Clicked on a user challenge - hightlight
         $("#user-challenges-selected-table").on("click", ".userChallengeRow", function (event) {
 
+            $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
             var userIndex = parseInt($(this).closest("tr").find('td:eq(0)').text());
             var challengeIndex = parseInt($(this).closest("tr").find('td:eq(1)').text());
 
             // Clear current selected challenges
-            $("#challenge-details-table").find("tr:gt(0)").remove();
+            $("#user-challenge-results-table").find("tr:gt(0)").remove();
 
             // Get reults from the view
             $.ajax({
@@ -293,7 +293,6 @@
                 method: "GET"
             })
                 .then(function (tableData) {
-                    console.log("Here1");
                     console.log(tableData);
 
                     // Loop through and display each of the users
@@ -311,27 +310,12 @@
                         );
 
                         // Append the new row to the table
-                        $("#challenge-details-table > tbody").append(newRow);
+                        $("#user-challenge-results-table > tbody").append(newRow);
                     }
                 });
         });
 
-
-        $(document).on("click", ".isDoneCheckBox", checkWinner);
         $(document).on("click", ".removeButton", removeRow);
-
-        // When the user clicks on the isDone button we check to see
-        // if all goals are complete
-        function checkWinner() {
-            console.log("Check Winner");
-            console.log($(this).attr("data-key"));
-            var table = $("#user-challenge-results-table > tbody");
-            $('#user-challenge-results-table tr').each(function () {
-                $(this).find('td').each(function () {
-                    console.log($(this).text());
-                })
-            })
-        }
 
         function removeRow() {
             console.log("Remove row ");
@@ -458,7 +442,7 @@
             console.log("In user create results");
 
             // Clear current selected challenge details
-            $("#challenge-details-table").find("tr:gt(0)").remove();
+            $("#user-challenge-results-table").find("tr:gt(0)").remove();
 
             // Get the challenge details
             $.ajax({
