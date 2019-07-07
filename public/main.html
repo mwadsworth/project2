@@ -2,20 +2,20 @@
 <html lang="en">
 
 <head>
-    <title>Bootstrap 4 Website Example</title>
+    <title>I Challenge You</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel ="stylesheet" href="../../public/assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-   
+
 </head>
 
 <body>
-    
+
     <div class="jumbotron text-center" style="margin-bottom:0">
         <h1>I Challenge You</h1>
         <p>Do Something Now!</p>
@@ -29,7 +29,7 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/test">Home</a>
+                    <a class="nav-link" href="/admin">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/">Sign Out</a>
@@ -100,9 +100,9 @@
                     </button>
                 </div> -->
                 <div class="modal-body" id="modalText">
-                    <h1><span h1 style= "color: blue;">Winner Name</span></h1>
-                    <h1><span h1 style= "color: teal;">You Win A Prize Of</span></h1>
-                    <h1><span h1 style= "color: rgba(43, 255, 0, 0.815);">Prize</span></h1>
+                    <h1><span id="winnerName" h1 style="color: blue;">Winner Name</span></h1>
+                    <h1><span h1 style="color: teal;">Your Prize Is </span></h1>
+                    <h1><span  id="winnerPrize" h1 style="color: rgba(43, 255, 0, 0.815);">Prize</span></h1>
                     <div style="width:100%;height:0;padding-bottom:65%;position:relative;"><iframe
                             src="https://giphy.com/embed/3o7bu57lYhUEFiYDSM" width="100%" height="100%"
                             style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
@@ -124,6 +124,7 @@
 
         var currentUserId = localStorage.getItem("userId");
         var currentChallengeId;
+        var currentPrize;
 
         // By default display the content from localStorage
         $("#userName").text(localStorage.getItem("firstName") + " " + localStorage.getItem("lastName"));
@@ -148,6 +149,7 @@
                             $("<td>").text(tableData[i].prize)
                         );
                         newRow.attr("data-key", tableData[i].challengeId);
+                        newRow.attr("data-prize", tableData[i].prize);
                         newRow.addClass("challengeRow");
 
                         // Append the new row to the table
@@ -171,6 +173,7 @@
             $(this).closest("tr").addClass('bg-success').siblings().removeClass('bg-success');
 
             var challengeIndex = parseInt($(this).closest("tr").attr("data-key"));
+            currentPrize = $(this).closest("tr").attr("data-prize");
             currentChallengeId = challengeIndex;
             console.log("In Challenge select");
             console.log(currentUserId + " " + currentChallengeId);
@@ -339,6 +342,9 @@
                                                 .done(function () {
                                                     console.log('SUCCESS');
                                                     console.log("Winner");
+                                                    var name = localStorage.getItem("firstName") + " " + localStorage.getItem("lastName");
+                                                    $("#winnerName").html(name);
+                                                    $("#winnerPrize").html(currentPrize);
                                                     $("#winnerModal").modal('show');
                                                     console.log(data.winnerId);
                                                 }).fail(function (msg) {
@@ -349,6 +355,9 @@
 
                                         } else {
                                             console.log("UserId " + data.winnerId + " beat you to it");
+                                            var name = localStorage.getItem("firstName") + " " + localStorage.getItem("lastName");
+                                            $("#winnerName").html(name);
+                                            $("#winnerPrize").html(currentPrize);
                                             $("#winnerModal").modal('show');
                                         }
                                     });

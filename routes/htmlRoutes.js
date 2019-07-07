@@ -18,29 +18,28 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname, "../public/login.html"));
     // res.sendFile(path.join(__dirname, "../public/createUserLogin.html"));
   });
-
-  app.get("/createOrJoinChallenge", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/createOrJoinChallenge.html"));
+  app.get("/admin", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/admin.html"));
   });
-
-  app.get("/createWithGoals", function(req, res) {
-    res.sendFile(Path.join(__dirname, "../public/createWithGoals.html"));
+  app.get("/admin/users", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/users.html"));
   });
-
-  app.get("/joinAChallenge", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/joinAChallenge.html"));
+  app.get("/admin/challenges", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/challenges.html"));
   });
-
-  app.get("/chosenChallenge", function(rez, res) {
-    res.sendFile(path.join(__dirname, "../public/chosenChallenge.html"));
+  app.get("/admin/user/select/challenge", function(req, res) {
+    res.sendFile(
+      path.join(__dirname, "../public/userSelectChallenge.html")
+    );
   });
-
-  app.get("/congratulations", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/congratulations.html"));
+  app.get("/admin/main", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/main.html"));
   });
-
+  app.get("/admin/main/select", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/mainUserSelectChallenge.html"));
+  });
   // If no matching route is found default to home
   app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/createUserLogin.html"));
+    res.sendFile(path.join(__dirname, "../public/login.html"));
   });
 };
