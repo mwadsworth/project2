@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 /* body{
   background-image: url("../../images/backgrouund4.jpg");
+=======
+body{
+  background-image: url("./assets/images/backgrouund4.jpg");
+>>>>>>> fe958c52917d027ae7df862117b250eb58932d26
   height: 500px;
   background-position: center;
   background-repeat: no-repeat;
