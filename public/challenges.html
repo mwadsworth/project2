@@ -11,7 +11,7 @@
   <!-- <link rel="stylesheet" href="./app.css"> -->
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="./styles/users.css">
+  <!-- <link rel="stylesheet" href="./styles/users.css"> -->
 
 
   <!-- Bootstrap scripts -->
@@ -19,54 +19,114 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </head>
+<style>
+  .jumbotron {
+    background-image: url(https://images.unsplash.com/photo-1559827495-aea88e5bc523?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=375&q=80);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 0px;
+  }
+
+  body {
+    background: black;
+  }
+
+  h1 {
+    color: black;
+    font-style: bold;
+    font-size: 300%;
+  }
+
+  h2 {
+    color: orangered;
+  }
+
+  h5 {
+    color: orange;
+  }
+
+  p {
+    color: black;
+    font-style: bold;
+    font-size: 160%;
+  }
+
+  .container {
+    background: #212529;
+    color: orangered;
+    border-style: solid;
+    border-color: grey;
+    margin-top: 30px;
+  }
+  nav {
+    padding-top: 0px;
+  }
+</style>
 
 <body>
 
-  <div class="container">
-
-    <div class="jumbotron">
-      <h1 class="text-center">
-        <span></span><i class="fa fa-product-hunt"></i></span> Challenges</h1>
+  <div class="jumbotron text-center">
+    <h1 class="text-center">
+      <span></span><i class="fa fa-product-hunt"></i></span> Challenges</h1>
+    <h3 class="text-center">Select a challenge!</h3>
+    <br>
+    <div class="text-center">
+      <a href="#"><button class="btn btn-md btn-outline-light" id="challengeModalBtn"><span
+            class="fa fa-list-alt"></span>
+          Add Challenges</button></a>
+      <a href="/admin"><button class="btn btn-lg btn-outline-light"><span class="fa fa-home"></span></button></a>
+    </div>
+  </div>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a class="navbar-brand" style="color: orangered;" href="#">Menu</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" style="color: orangered;" href="/admin">Home</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" style="color: orangered;" href="/">Sign Out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- Challenges -->
+<div class= "container">
+  <div class="row">
+    <div class="col-md-12">
       <hr>
-      <h2 class="text-center">Challenges</h2>
-      <br>
-      <div class="text-center">
-        <a href="#"><button class="btn btn-lg btn-primary" id="challengeModalBtn"><span class="fa fa-list-alt"></span>
-            Add
-            Challenges</button></a>
-        <a href="/admin"><button class="btn btn-lg btn-default"><span class="fa fa-home"></span></button></a>
+      <hr>
+      <!-- Challenges-->
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-condensed table-sm table-hover" id="challenges-table">
+          <thead>
+            <tr>
+              <!-- The scope attribute specifies that this is a header for a column -->
+              <th scope="col">Challenge ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Prize</th>
+              <th scope="col">Update</th>
+              <th scope="col">Delete</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
 
-    <!-- Challenges -->
+  <!-- Challenge Details -->
+
     <div class="row">
       <div class="col-md-12">
-
-        <!-- Challenges-->
-        <div class="table-responsive">
-          <table class="table table-striped table-bordered table-condensed table-sm table-hover" id="challenges-table">
-            <thead>
-              <tr>
-                <!-- The scope attribute specifies that this is a header for a column -->
-                <th scope="col">Challenge ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Prize</th>
-                <th scope="col">Update</th>
-                <th scope="col">Delete</th>
-                <th scope="col">Details</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Challenge Details -->
-    <div class="row">
-      <div class="col-md-12">
-
+<hr>
+<hr>
         <!-- Challenge Details-->
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-condensed table-sm table-hover"
@@ -85,9 +145,12 @@
             <tbody>
             </tbody>
           </table>
+          <hr>
+<hr>
         </div>
       </div>
     </div>
+  </div>
 
     <!-- Modal dialog to update challenges -->
     <div class="modal fade" id="challengeModal" tabindex="-1" role="dialog" aria-labelledby="challengeModalTitle"
@@ -164,13 +227,11 @@
         </div>
       </div>
     </div>
-
-    <footer class="footer">
-      <div class="container">
-        <p><a href="/api/users">Users List</a> | <a href="/api/challenges">Challenges List</a>
-      </div>
-    </footer>
-
+  </div>
+  <div class="footer text-center" style="margin-bottom:0">
+    <p style="background-color: black;">
+      <h6 style="color: grey;"> I Challenge You &#169; Copyright 2019</h6>
+  </div>
   </div>
 
   <!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->

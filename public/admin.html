@@ -14,8 +14,38 @@
   <!-- Bootstrap scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="./styles/pagese.css">
+  <style>
+    body {
+      background-image: url("https://images.unsplash.com/photo-1555526647-94b8ec455f22?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 120%, 100%;
+      background-color: black;
 
-  
+    }
+
+    .jumbotron {
+      background-color: black;
+      width: 400px;
+      margin-bottom: 150px;
+      margin-top: 50px;
+
+    }
+
+    h1 {
+      color: orange;
+    }
+
+    h2 {
+      color: orange;
+
+    }
+
+    .footer {
+      margin-top: 50px;
+    }
+  </style>
 </head>
 
 <body>
@@ -29,25 +59,34 @@
       <br>
 
       <div class="text-center">
-        <a href="/admin/users"><button class="btn btn-lg btn-primary mt-4"><span class="fa fa-list-alt"></span> View
-            Users</button></a>
-        <a href="/admin/challenges"><button class="btn btn-lg btn-primary mt-4"><span class="fa fa-list-alt"></span>
-            View
-            Challenges</button></a>
-        <a href="/admin/user/select/challenge"><button class="btn btn-lg btn-primary mt-4"><span
-              class="fa fa-list-alt"></span> User Select Challenge</button></a>
-        <a href="/admin/main"><button class="btn btn-lg btn-primary mt-4"><span class="fa fa-list-alt"></span> Main
-            Page</button></a>
-        <a href="/admin/main/select"><button class="btn btn-lg btn-primary mt-4"><span class="fa fa-list-alt"></span>
+
+        <a href="/admin/users"><button class="btn btn-md btn-outline-light mt-4" style="color: orangered;"><span
+              class="fa fa-list-alt"></span> View Users</button></a>
+        <hr>
+
+        <a href="/admin/challenges"><button class="btn btn-md btn-outline-light mt-4"
+            style="color: orangered";><span class=" fa fa-list-alt"></span>
+            View Challenges</button></a>
+        <hr>
+
+        <a href="/admin/user/select/challenge"><button class="btn btn-md btn-outline-light mt-4"
+            style="color: orangered;"><span class="fa fa-list-alt"></span> User Select Challenge</button></a>
+        <hr>
+
+        <a href="/admin/main"><button class="btn btn-md btn-outline-light mt-4" style="color: orangered;"><span class="
+            fa fa-list-alt"></span> Main Page</button></a>
+        <hr>
+
+        <a href="/admin/main/select"><button class="btn btn-md btn-outline-light mt-4"
+            style="color: orangered;"><span class=" fa fa-list-alt"></span>
             Main Challenge Select</button></a>
       </div>
 
     </div>
 
-    <footer class="footer">
-      <div class="container">
-        <p><a href="/api/users">Users List</a> | <a href="/api/challenges">Challenges List</a>
-      </div>
+    <div class="footer text-center" style="color: black;">
+      <h6 style="color: grey;"> I Challenge You &#169; Copyright 2019</h6>
+    </div>
     </footer>
 
   </div>
