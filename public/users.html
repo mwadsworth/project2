@@ -24,6 +24,7 @@
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
+      margin-bottom: 0px;
     }
 
     body {
@@ -56,9 +57,10 @@
       border-style: solid;
       border-color: grey;
     }
+
     tr:hover {
       background: grey;
-     
+
     }
 
     tbody:hover {
@@ -77,14 +79,34 @@
     <h1 class="text-center">
       <span></span><i class="fa fa-product-hunt"></i></span> Users</h1>
     <h3 class="text-center" style="color:white;">Users</h3>
-    <br>
+    <hr>
+    <hr>
     <div class="text-center">
-      <a href="#"><button class="btn btn-lg btn-outline-light" style="color:#ff794d;" id="userModalBtn"><span class="fa fa-list-alt"></span>
+      <a href="#"><button class="btn btn-lg btn-outline-light" style="color:#ff794d;" id="userModalBtn"><span
+            class="fa fa-list-alt"></span>
           Add Users</button></a>
-      <a href="/admin"><button class="btn btn-lg btn-outline-light"style="color:#ff794d;"><span class="fa fa-home"></span></button></a>
+      <a href="/admin"><button class="btn btn-lg btn-outline-light" style="color:#ff794d;"><span
+            class="fa fa-home"></span></button></a>
     </div>
   </div>
-
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a class="navbar-brand" style="color:red;" href="#">Menu</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" style="color:red;" href="/admin">Home</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" style="color: red;" href="/">Sign Out</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<hr>
+<hr>
   <!-- Users -->
   <div class="container">
     <div class="row">
@@ -92,7 +114,8 @@
         <hr>
         <!-- Users-->
         <div class="table-responsive">
-          <table class="table table-striped table-bordered table-condensed table-sm table-hover" style="color:orange;"id="users-table">
+          <table class="table table-striped table-bordered table-condensed table-sm table-hover" style="color:orange;"
+            id="users-table">
             <thead>
               <tr>
                 <!-- The scope attribute specifies that this is a header for a column -->
@@ -119,8 +142,8 @@
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content" style="background-color: #ff794d;">
           <div class="modal-header">
-              <label class="col-sm-3 col-form-label col-form-label-lg" style="color: black;"
-              for="adding-user">Add Users</label>
+            <label class="col-sm-3 col-form-label col-form-label-lg" style="color: black;" for="adding-user">Add
+              Users</label>
             <button type="button" class="close" data-dismiss="modal" style="color: black;" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -137,7 +160,8 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;" for="user-last-name">Last Name</label>
+                <label class="col-sm-3 col-form-label col-form-label-sm" style="color: black;" for="user-last-name">Last
+                  Name</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control form-control-sm" style="color: black;" id="user-last-name">
                 </div>
@@ -160,6 +184,12 @@
       </div>
     </div>
   </div>
+  <hr>
+  <hr>
+  <div class="link">
+    <h6 style="color:goldenrod;"><a href="/api/users" style="color: goldenrod;">Users List</a> || <a href="/api/challenges" style="color: goldenrod;">Challenges List</a>
+</div>
+</link>
   <div class="footer text-center" style="margin-bottom:0">
     <p style="background-color: black;">
       <h6 style="color: grey;"> I Challenge You &#169; Copyright 2019</h6>
