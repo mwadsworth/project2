@@ -36,7 +36,7 @@ html {
 }
 /* Background-image Styling */
 
-/* .primg1,
+ .primg1,
 .primg2,
 .primg3 {
   position: relative;
@@ -52,7 +52,7 @@ html {
   min-height: 100%;
 }
 
-.primg2 {
+/* .primg2 {
   background-image: url(/Users/serenabrown/Desktop/myTest/images/backgrouund4.jpg);
   min-height: 500px;
 }
@@ -60,11 +60,11 @@ html {
 .primg3 {
   background-image: url(/Users/serenabrown/Desktop/myTest/images/background.jpg);
   min-height: 500px;
-}
+} */
 
 /* Section */
 
-/* .section {
+  .section {
   text-align: center;
   padding: 50px 80px;
 }
@@ -79,7 +79,7 @@ html {
   color: #ddd;
 }
 
-.prtext {
+/* .prtext {
   position: absolute;
   top: 50%;
   width: 100%;
@@ -88,16 +88,16 @@ html {
   font-size: 27px;
   letter-spacing: 7px;
   color: #fff;
-}
+} */
 
-.border {
+/* .border {
   background-color: #111;
   padding: 20px;
 }
 
 .border.trans {
   background-color: transparent;
-} */ 
+}  */ */
 
 footer {
   background-color: #111;

@@ -73,7 +73,7 @@ $("#signIn").on("click", function (event) {
             if(email == users[i].Email && password == users[i].password) {
                 console.log(email + " is logged in!!!")
                 // stop the function if this is found to be true
-                window.location = "./landingpage.html"
+                window.location = "./admin.html"
                 return
 
             }
