@@ -24,7 +24,7 @@ module.exports = function(app) {
   // Get all user challenge results by userId and challengeId
   app.get("/api/user/challenges/:id/:cid", function(req, res) {
     db.user_challenges
-      .findAll({
+      .findOne({
         where: {
           userId: req.params.id,
           challengeId: req.params.cid
