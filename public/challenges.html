@@ -59,6 +59,7 @@
     border-color: grey;
     margin-top: 30px;
   }
+
   nav {
     padding-top: 0px;
   }
@@ -95,38 +96,38 @@
     </div>
   </nav>
   <!-- Challenges -->
-<div class= "container">
-  <div class="row">
-    <div class="col-md-12">
-      <hr>
-      <hr>
-      <!-- Challenges-->
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered table-condensed table-sm table-hover" id="challenges-table">
-          <thead>
-            <tr>
-              <!-- The scope attribute specifies that this is a header for a column -->
-              <th scope="col">Challenge ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Prize</th>
-              <th scope="col">Update</th>
-              <th scope="col">Delete</th>
-              <th scope="col">Details</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <hr>
+        <hr>
+        <!-- Challenges-->
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-condensed table-sm table-hover" id="challenges-table">
+            <thead>
+              <tr>
+                <!-- The scope attribute specifies that this is a header for a column -->
+                <th scope="col">Challenge ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Prize</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Details</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Challenge Details -->
+    <!-- Challenge Details -->
 
     <div class="row">
       <div class="col-md-12">
-<hr>
-<hr>
+        <hr>
+        <hr>
         <!-- Challenge Details-->
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-condensed table-sm table-hover"
@@ -146,87 +147,87 @@
             </tbody>
           </table>
           <hr>
-<hr>
+          <hr>
         </div>
       </div>
     </div>
   </div>
 
-    <!-- Modal dialog to update challenges -->
-    <div class="modal fade" id="challengeModal" tabindex="-1" role="dialog" aria-labelledby="challengeModalTitle"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="challengeModalTitle">Add Challenge</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" id="modalText">
+  <!-- Modal dialog to update challenges -->
+  <div class="modal fade" id="challengeModal" tabindex="-1" role="dialog" aria-labelledby="challengeModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="challengeModalTitle">Add Challenge</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modalText">
 
-            <!-- Challenge Update -->
-            <form role="form">
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label col-form-label-sm" for="challenge-name">Name</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control form-control-sm" id="challenge-name">
-                </div>
+          <!-- Challenge Update -->
+          <form role="form">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" for="challenge-name">Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" id="challenge-name">
               </div>
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label col-form-label-sm" for="challenge-prize">Prize</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control form-control-sm" id="challenge-prize">
-                </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" for="challenge-prize">Prize</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" id="challenge-prize">
               </div>
-              <button type="submit" class="btn btn-primary submit" id="challengeBtn">Submit</button>
-            </form>
+            </div>
+            <button type="submit" class="btn btn-primary submit" id="challengeBtn">Submit</button>
+          </form>
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Modal dialog to challenge details -->
-    <div class="modal fade" id="challengeDetailModal" tabindex="-1" role="dialog" aria-labelledby="challengeModalTitle"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="challengeDetailModalTitle">Challenge Details</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" id="modalText">
+  <!-- Modal dialog to challenge details -->
+  <div class="modal fade" id="challengeDetailModal" tabindex="-1" role="dialog" aria-labelledby="challengeModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="challengeDetailModalTitle">Challenge Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modalText">
 
-            <!-- Challenge Detail Update -->
-            <form role="form">
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label col-form-label-sm" for="detail-goal">Goal</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control form-control-sm" id="detail-goal">
-                </div>
+          <!-- Challenge Detail Update -->
+          <form role="form">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" for="detail-goal">Goal</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" id="detail-goal">
               </div>
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label col-form-label-sm" for="detail-goal-order">Goal Order</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control form-control-sm" id="detail-goal-order">
-                </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm" for="detail-goal-order">Goal Order</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control form-control-sm" id="detail-goal-order">
               </div>
-              <button type="submit" class="btn btn-primary submit" id="detailBtn">Submit</button>
-            </form>
+            </div>
+            <button type="submit" class="btn btn-primary submit" id="detailBtn">Submit</button>
+          </form>
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
+  </div>
   </div>
   <div class="footer text-center" style="margin-bottom:0">
     <p style="background-color: black;">
