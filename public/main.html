@@ -11,7 +11,54 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        .jumbotron {
+            background-image: url(https://images.unsplash.com/photo-1489493512598-d08130f49bea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=748&q=80);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
 
+        body {
+            background: black;
+        }
+
+        h1 {
+            color: black;
+            font-style: bold;
+            font-size: 300%;
+        }
+
+        h2 {
+            color: orangered;
+        }
+
+        h5 {
+            color: orange;
+        }
+
+        p {
+            color: black;
+            font-style: bold;
+            font-size: 160%;
+        }
+
+        .container {
+            background: #212529;
+            color: orangered;
+            border-style: solid;
+            border-color: white;
+        }
+
+        tr:hover {
+            background: white;
+        }
+
+        tbody:hover {
+            background: white;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -22,17 +69,17 @@
     </div>
 
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" style="color: orangered;" href="#">Menu</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin">Home</a>
+                    <a class="nav-link" style="color: orangered;" href="/admin">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Sign Out</a>
+                <li class="nav-item ">
+                    <a class="nav-link" style="color: orangered;" href="/">Sign Out</a>
                 </li>
             </ul>
         </div>
@@ -51,7 +98,7 @@
                 <h5>Work In Progress</h5>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-condensed table-sm table-hover"
-                        id="challenges-table">
+                        style="color:#e60000;" id="challenges-table" hover style="background-color: white;">
                         <thead>
                             <tr>
                                 <!-- The scope attribute specifies that this is a header for a column -->
@@ -66,12 +113,12 @@
             </div>
         </div>
 
-        <!-- Challenge details and reults -->
+        <!-- Challenge details and results -->
         <div class="row">
             <div class="col-sm-12">
                 <h2>Challenge Goals</h2>
                 <table class="table table-responsive table-striped table-bordered table-condensed table-sm table-hover"
-                    id="user-challenge-results-table">
+                    id="user-challenge-results-table" style="color: #e60000;">
                     <thead>
                         <tr>
                             <!-- The scope attribute specifies that this is a header for a column -->
@@ -99,25 +146,27 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div> -->
-                <div class="modal-body" id="modalText">
+                <div class="modal-body" style="background-color: black;" id="modalText">
                     <h1><span id="winnerName" h1 style="color: blue;">Winner Name</span></h1>
                     <h1><span h1 style="color: teal;">Your Prize Is </span></h1>
-                    <h1><span  id="winnerPrize" h1 style="color: rgba(43, 255, 0, 0.815);">Prize</span></h1>
+                    <h1><span id="winnerPrize" h1 style="color: rgba(26, 151, 1, 0.815);">Prize</span></h1>
                     <div style="width:100%;height:0;padding-bottom:65%;position:relative;"><iframe
                             src="https://giphy.com/embed/3o7bu57lYhUEFiYDSM" width="100%" height="100%"
                             style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
                     </div>
                     <p><a href="https://giphy.com/gifs/alroker-al-roker-3o7bu57lYhUEFiYDSM">via GIPHY</a></p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <div class="modal-footer" style="background-color: black;">
+                    <button type="button" class="btn btn-orange;" style="background-color: red;"
+                        data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="jumbotron text-center" style="margin-bottom:0">
-        <p>Footer</p>
+    <div class="footer text-center" style="margin-bottom:0">
+        <p style="background-color: black;">
+            <h6 style="color: grey;"> I Challenge You &#169; Copyright 2019</h6>
     </div>
 
     <script type="text/javascript">
