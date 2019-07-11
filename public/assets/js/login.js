@@ -77,7 +77,6 @@ $(document).ready(function() {
 
   // //localStorage
   $("#signIn").on("click", function(event) {
-    console.log("Here3");
     event.preventDefault();
     var password = $("#password")
       .val()
@@ -105,28 +104,23 @@ var container = document.getElementById("container");
 
 $("#signUp").on("click", function(event) {
   event.preventDefault();
-  console.log("Here1");
 });
 
 $("#signUp2").on("click", function(event) {
   event.preventDefault();
-  console.log("Here2");
   container.classList.add("left-panel-active");
 });
 
 $("#signIn2").on("click", function() {
-  console.log("Here4");
   container.classList.add("left-panel-active");
 });
 
 signUpButton.addEventListener("click", () => {
-  console.log("Herea");
   container.classList.add("right-panel-active");
   container.classList.remove("left-panel-active");
 });
 
 signInButton.addEventListener("click", () => {
-  console.log("Hereb");
   container.classList.add("left-panel-active");
   container.classList.remove("right-panel-active");
 });
